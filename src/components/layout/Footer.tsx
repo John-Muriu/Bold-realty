@@ -9,16 +9,14 @@ const Footer = () => {
           {/* Brand */}
           <div className="space-y-6">
             <Link to="/" className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-display text-xl font-bold">N</span>
-              </div>
+              <img src="/ivory-crest-logo.png" alt="Ivory Crest" className="h-12 w-auto object-contain transition-transform duration-300 hover:scale-105" />
               <div>
-                <h2 className="font-display text-xl font-bold">Ndeto<span className="text-primary">Homes</span></h2>
-                <p className="text-xs text-muted-foreground">Building Dreams</p>
+                <h2 className="font-display text-xl font-bold">IVORY <span className="text-primary">CREST</span></h2>
+                <p className="text-xs text-muted-foreground">Prestige. Exclusivity. Excellence</p>
               </div>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Your trusted partner in finding the perfect property. We connect buyers, sellers, and renters with their dream homes.
+              Ivory Crest connects discerning buyers with Kenya's most prestigious properties. Experience the gold standard in real estate.
             </p>
             <div className="flex items-center gap-4">
               <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors">
@@ -105,15 +103,15 @@ const Footer = () => {
             <h3 className="font-display text-lg font-semibold mb-6">Contact Us</h3>
             <ul className="space-y-4">
               <li>
-                <a href="tel:+254721353753" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors text-sm">
+                <a href="tel:+2540103002049" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors text-sm">
                   <Phone className="w-5 h-5 text-primary" />
-                  <span>+254 721 353753</span>
+                  <span>+254 103 002 049</span>
                 </a>
               </li>
               <li>
                 <a href="mailto:info@ndetohomes.com" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors text-sm">
                   <Mail className="w-5 h-5 text-primary" />
-                  <span>info@ndetohomes.com</span>
+                  <span>info@ivorycrest.com</span>
                 </a>
               </li>
               <li>
@@ -129,7 +127,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-            <p>&copy; {new Date().getFullYear()} NdetoHomes. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} Ivory Crest. All rights reserved.</p>
             <div className="flex items-center gap-6">
               <Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
               <Link to="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>

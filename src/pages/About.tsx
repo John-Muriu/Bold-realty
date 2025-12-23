@@ -38,7 +38,7 @@ const About = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       <main className="pt-32 pb-20">
         {/* Hero Section */}
         <section className="py-16 section-dark">
@@ -52,7 +52,7 @@ const About = () => {
                 <span className="text-gradient-gold">One Home</span> at a Time
               </h1>
               <p className="text-lg text-gray-300 mb-8">
-                NdetoHomes is a leading real estate agency in Kenya, dedicated to helping families and investors find their perfect properties. With over 15 years of experience, we've built a reputation for excellence, integrity, and exceptional service.
+                Ivory Crest is a leading real estate agency in Kenya, dedicated to helping families and investors find their perfect properties. With over 15 years of experience, we've built a reputation for excellence, integrity, and exceptional service.
               </p>
             </div>
           </div>

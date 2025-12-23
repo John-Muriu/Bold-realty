@@ -28,7 +28,7 @@ const CTASection = () => {
                 size="xl"
                 asChild
               >
-                <a href="tel:+254721353753">
+                <a href="tel:+2540103002049">
                   <Phone className="w-5 h-5" />
                   Call Us Now
                 </a>

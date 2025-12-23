@@ -24,18 +24,44 @@ interface Property {
   units_available: number | null;
 }
 
-const FeaturedProperties = () => {
+interface FeaturedPropertiesProps {
+  title?: string;
+  description?: string;
+  className?: string;
+  filter?: {
+    location?: string;
+    featured?: boolean;
+  };
+  limit?: number;
+}
+
+const FeaturedProperties = ({
+  title = "Discover Premium Properties",
+  description = "Our handpicked selection of premium properties offering exceptional value and prime locations",
+  className = "",
+  filter = { featured: true },
+  limit = 3
+}: FeaturedPropertiesProps) => {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProperties = async () => {
-      const { data, error } = await supabase
+      let query = supabase
         .from("properties")
         .select("*")
-        .eq("featured", true)
         .order("created_at", { ascending: false })
-        .limit(4);
+        .limit(limit);
+
+      if (filter.featured) {
+        query = query.eq("featured", true);
+      }
+
+      if (filter.location) {
+        query = query.ilike("location", `%${filter.location}%`);
+      }
+
+      const { data, error } = await query;
 
       if (!error && data) {
         setProperties(data as Property[]);
@@ -44,18 +70,18 @@ const FeaturedProperties = () => {
     };
 
     fetchProperties();
-  }, []);
+  }, [filter, limit]);
 
   if (loading) {
     return (
-      <section className="py-20 bg-background">
+      <section className={`py-20 bg-background ${className}`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <div className="h-8 w-48 bg-muted rounded-lg mx-auto mb-4 animate-pulse" />
             <div className="h-4 w-96 bg-muted rounded mx-auto animate-pulse" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[1, 2, 3, 4].map((i) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(limit)].map((_, i) => (
               <div key={i} className="bg-card rounded-xl overflow-hidden animate-pulse">
                 <div className="aspect-[4/3] bg-muted" />
                 <div className="p-6 space-y-4">
@@ -71,24 +97,26 @@ const FeaturedProperties = () => {
     );
   }
 
+  if (properties.length === 0) return null;
+
   return (
-    <section className="py-20 bg-background">
+    <section className={`py-20 bg-background ${className}`}>
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12 animate-fade-up">
           <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-            Featured Properties
+            Exclusive Listings
           </span>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Discover Premium Properties
+            {title}
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Our handpicked selection of premium properties offering exceptional value and prime locations
+            {description}
           </p>
         </div>
 
         {/* Properties Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {properties.map((property, index) => (
             <div
               key={property.id}

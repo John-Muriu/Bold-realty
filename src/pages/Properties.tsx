@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import { Search, Filter, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/layout/Header";
@@ -109,17 +109,39 @@ const Properties = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
-      <main className="pt-32 pb-20">
+
+      <main className="pt-40 pb-20">
         <div className="container mx-auto px-4">
           {/* Page Header */}
-          <div className="text-center mb-12">
-            <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
-              All Properties
-            </h1>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Browse our complete collection of premium properties across Nairobi
-            </p>
+          <div className="relative rounded-3xl overflow-hidden mb-12 h-[300px] flex items-center justify-center">
+            {/* Background Image */}
+            <div className="absolute inset-0">
+              <img
+                src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600"
+                alt="Properties Hero"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-black/50" />
+            </div>
+
+            {/* Content */}
+            <div className="relative z-10 text-center px-4">
+              <h1 className="font-display text-4xl md:text-5xl font-bold text-white mb-4">
+                All Properties
+              </h1>
+              <p className="text-gray-200 text-lg max-w-2xl mx-auto mb-6">
+                Browse our complete collection of premium properties across Nairobi
+              </p>
+
+              {/* Breadcrumbs */}
+              <nav className="flex items-center justify-center gap-2 text-sm text-gray-300">
+                <Link to="/" className="hover:text-white transition-colors">
+                  Home
+                </Link>
+                <span>/</span>
+                <span className="text-white font-medium">Properties</span>
+              </nav>
+            </div>
           </div>
 
           {/* Filters Bar */}
@@ -260,8 +282,8 @@ const Properties = () => {
 
           {/* Properties Grid */}
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
                 <div key={i} className="bg-card rounded-xl overflow-hidden animate-pulse">
                   <div className="aspect-[4/3] bg-muted" />
                   <div className="p-6 space-y-4">
@@ -273,7 +295,7 @@ const Properties = () => {
               ))}
             </div>
           ) : properties.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {properties.map((property, index) => (
                 <div
                   key={property.id}

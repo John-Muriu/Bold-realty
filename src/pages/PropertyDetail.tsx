@@ -116,7 +116,7 @@ const PropertyDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       <main className="pt-32 pb-20">
         <div className="container mx-auto px-4">
           {/* Back Button */}
@@ -128,40 +128,65 @@ const PropertyDetail = () => {
             Back to Properties
           </Link>
 
-          {/* Main Image */}
-          <div className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-8">
-            <img
-              src={property.image_url || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200"}
-              alt={property.title}
-              className="w-full h-full object-cover"
-            />
-            
-            {/* Badges */}
-            <div className="absolute top-6 left-6 flex flex-wrap gap-2">
-              {property.featured && (
-                <span className="badge-status bg-primary text-primary-foreground border-none">
-                  Featured
+          {/* Gallery Section */}
+          <div className="space-y-4 mb-8">
+            {/* Main Image */}
+            <div className="relative h-[300px] md:h-[400px] lg:h-[500px] rounded-2xl overflow-hidden group cursor-pointer" onClick={() => window.open(property.image_url || "", "_blank")}>
+              <img
+                src={property.image_url || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200"}
+                alt={property.title}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+
+              {/* Badges */}
+              <div className="absolute top-6 left-6 flex flex-wrap gap-2">
+                {property.featured && (
+                  <span className="badge-status bg-primary text-primary-foreground border-none">
+                    Featured
+                  </span>
+                )}
+                <span className="badge-status bg-secondary text-secondary-foreground border-none capitalize">
+                  {property.listing_type}
                 </span>
-              )}
-              <span className="badge-status bg-secondary text-secondary-foreground border-none capitalize">
-                {property.listing_type}
-              </span>
-              <span className={`badge-status ${
-                property.status === "ready" ? "badge-ready" : "badge-off-plan"
-              }`}>
-                {property.status === "off-plan" ? "Off-Plan" : "Ready"}
-              </span>
+                <span className={`badge-status ${property.status === "ready" ? "badge-ready" : "badge-off-plan"
+                  }`}>
+                  {property.status === "off-plan" ? "Off-Plan" : "Ready"}
+                </span>
+              </div>
+
+              {/* Share Button */}
+              <Button
+                variant="glass"
+                size="icon"
+                className="absolute top-6 right-6 z-10"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleShare();
+                }}
+              >
+                <Share2 className="w-5 h-5" />
+              </Button>
             </div>
 
-            {/* Share Button */}
-            <Button
-              variant="glass"
-              size="icon"
-              className="absolute top-6 right-6"
-              onClick={handleShare}
-            >
-              <Share2 className="w-5 h-5" />
-            </Button>
+            {/* Thumbnails Grid */}
+            {property.images && property.images.length > 1 && (
+              <div className="grid grid-cols-4 md:grid-cols-6 gap-2">
+                {property.images.map((img, idx) => (
+                  <div
+                    key={idx}
+                    className="aspect-square rounded-lg overflow-hidden cursor-pointer border-2 border-transparent hover:border-primary transition-all"
+                    onClick={() => window.open(img, "_blank")}
+                  >
+                    <img
+                      src={img}
+                      alt={`View ${idx + 1}`}
+                      className="w-full h-full object-cover hover:opacity-90 transition-opacity"
+                      loading="lazy"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
@@ -263,13 +288,13 @@ const PropertyDetail = () => {
                 {/* Contact Buttons */}
                 <div className="space-y-3">
                   <Button variant="gold" size="lg" className="w-full" asChild>
-                    <a href="tel:+254721353753">
+                    <a href="tel:+2540103002049">
                       <Phone className="w-5 h-5" />
                       Call Now
                     </a>
                   </Button>
                   <Button variant="outline" size="lg" className="w-full" asChild>
-                    <a href="https://wa.me/254721353753" target="_blank" rel="noopener noreferrer">
+                    <a href="https://wa.me/2540103002049" target="_blank" rel="noopener noreferrer">
                       <MessageCircle className="w-5 h-5" />
                       WhatsApp
                     </a>
@@ -285,11 +310,11 @@ const PropertyDetail = () => {
                 <div className="mt-8 pt-6 border-t border-border">
                   <p className="text-sm text-muted-foreground mb-2">Listed by</p>
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
-                      <span className="text-primary-foreground font-display font-bold">N</span>
+                    <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center border border-border overflow-hidden">
+                      <img src="/ivory-crest-logo.png" alt="Ivory Crest" className="h-8 w-auto object-contain" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-foreground">NdetoHomes</h4>
+                      <h4 className="font-semibold text-foreground">Ivory Crest</h4>
                       <p className="text-sm text-muted-foreground">Verified Agent</p>
                     </div>
                   </div>
