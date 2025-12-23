@@ -128,6 +128,17 @@ const Footer = () => {
         <div className="mt-16 pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
             <p>&copy; {new Date().getFullYear()} Ivory Crest. All rights reserved.</p>
+            <p>
+              Designed by{" "}
+              <a
+                href="https://ndovubase.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary/80 transition-colors font-medium"
+              >
+                Ndovubase Solutions
+              </a>
+            </p>
             <div className="flex items-center gap-6">
               <Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
               <Link to="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
