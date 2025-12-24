@@ -190,9 +190,8 @@ const Contact = () => {
                   <div>
                     <h3 className="font-semibold text-foreground mb-1">Office Address</h3>
                     <p className="text-muted-foreground">
-                      iHiT, Dennis Pritt road,<br />
-                      Next to Maalima Juma road,<br />
-                      Kilimani, Nairobi
+                      Sports Road Westlands,<br />
+                      Nairobi
                     </p>
                   </div>
                 </div>

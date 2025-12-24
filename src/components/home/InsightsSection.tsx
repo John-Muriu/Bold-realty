@@ -4,28 +4,28 @@ import { Button } from "@/components/ui/button";
 
 const insights = [
     {
+        id: 4,
+        date: "Dec 24, 2024",
+        category: "Investment Guide",
+        title: "Why Westlands is the Best Place to Invest in Nairobi",
+        excerpt: "Explore why Westlands continues to dominate as Nairobi's premier investment destination with unmatched ROI and growth potential.",
+        image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&auto=format&fit=crop"
+    },
+    {
+        id: 5,
+        date: "Dec 24, 2024",
+        category: "Market Analysis",
+        title: "Why Nairobi is the Next Investment Hub in East Africa",
+        excerpt: "Discover how Nairobi is positioning itself as Africa's leading real estate investment destination with unprecedented opportunities.",
+        image: "https://images.unsplash.com/photo-1577495508326-19a1b3cf65b7?w=800&auto=format&fit=crop"
+    },
+    {
         id: 1,
         date: "Oct 24, 2024",
         category: "Market Trends",
         title: "The Future of Luxury Real Estate in Nairobi",
         excerpt: "Discover emerging trends and investment opportunities in Nairobi's prime residential areas.",
         image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&auto=format&fit=crop"
-    },
-    {
-        id: 2,
-        date: "Oct 20, 2024",
-        category: "Interior Design",
-        title: "Minimalist Interiors: A Guide for 2025",
-        excerpt: "How to achieve the perfect balance of simplicity and luxury in your modern home.",
-        image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&auto=format&fit=crop"
-    },
-    {
-        id: 3,
-        date: "Oct 15, 2024",
-        category: "Investment",
-        title: "Why Kilimani is the Hotspot for Investors",
-        excerpt: "An in-depth analysis of rental yields and capital appreciation in one of Nairobi's fastest growing suburbs.",
-        image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&auto=format&fit=crop"
     }
 ];
 
@@ -54,7 +54,7 @@ const InsightsSection = () => {
                     {insights.map((item) => (
                         <Link
                             key={item.id}
-                            to="/insights"
+                            to={`/insights/${item.id}`}
                             className="group bg-card rounded-2xl overflow-hidden border border-border hover:shadow-lg transition-all duration-300"
                         >
                             <div className="aspect-[16/10] overflow-hidden relative">

@@ -117,7 +117,7 @@ const Footer = () => {
               <li>
                 <div className="flex items-start gap-3 text-muted-foreground text-sm">
                   <MapPin className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                  <span>iHiT, Dennis Pritt road, Next to Maalima Juma road, Kilimani, Nairobi</span>
+                  <span>Sports Road Westlands, Nairobi</span>
                 </div>
               </li>
             </ul>

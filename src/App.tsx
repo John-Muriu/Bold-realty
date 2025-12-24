@@ -11,6 +11,7 @@ import PropertyDetail from "./pages/PropertyDetail";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import Insights from "./pages/Insights";
+import BlogDetail from "./pages/BlogDetail";
 import NotFound from "./pages/NotFound";
 
 // Admin Imports
@@ -23,6 +24,7 @@ import AdminBlogs from "@/pages/admin/Blogs";
 import BlogForm from "@/pages/admin/BlogForm";
 import AdminEnquiries from "@/pages/admin/Enquiries";
 import PropertyCategories from "./pages/admin/PropertyCategories";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +35,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Index />} />
@@ -41,6 +44,7 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
             <Route path="/insights" element={<Insights />} />
+            <Route path="/insights/:id" element={<BlogDetail />} />
 
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
