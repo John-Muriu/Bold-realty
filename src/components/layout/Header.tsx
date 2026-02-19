@@ -17,15 +17,35 @@ const Header = () => {
   const navLinks = [
     { name: "Home", path: "/" },
     {
-      name: "Properties",
-      path: "/properties",
+      name: "For Sale",
+      path: "/properties?listingType=buy",
       subItems: [
-        { name: "For Rent", path: "/properties?listingType=rent" },
-        { name: "For Sale", path: "/properties?listingType=buy" },
+        { name: "Apartments For Sale In Nairobi", path: "/properties?listingType=buy&propertyType=Apartment" },
+        { name: "Houses For Sale In Nairobi", path: "/properties?listingType=buy&propertyType=House" },
+        { name: "Villas For Sale In Nairobi", path: "/properties?listingType=buy&propertyType=Villa" },
+        { name: "Commercial Property For Sale In Nairobi", path: "/properties?listingType=buy&propertyType=Commercial" },
       ]
     },
-    { name: "About", path: "/about" },
-    { name: "Insights", path: "/insights" },
+    {
+      name: "For Rent",
+      path: "/properties?listingType=rent",
+      subItems: [
+        { name: "Apartments For Rent In Nairobi", path: "/properties?listingType=rent&propertyType=Apartment" },
+        { name: "Houses For Rent In Nairobi", path: "/properties?listingType=rent&propertyType=House" },
+        { name: "Commercial Property For Rent Nairobi", path: "/properties?listingType=rent&propertyType=Commercial" },
+      ]
+    },
+    {
+      name: "Listings",
+      path: "/properties",
+      subItems: [
+        { name: "Ongoing Projects", path: "/properties?status=ongoing" },
+        { name: "Complete Projects", path: "/properties?status=ready" },
+        { name: "Off-Plan Projects", path: "/properties?status=off-plan" },
+      ]
+    },
+    { name: "Locations", path: "/locations" },
+    { name: "Blog & Posts", path: "/insights" },
     { name: "Contact", path: "/contact" },
   ];
 
@@ -43,32 +63,29 @@ const Header = () => {
             <div className="flex items-center gap-6">
               <a href="tel:+2540103002049" className="flex items-center gap-2 hover:text-primary transition-colors">
                 <Phone className="w-4 h-4" />
-                <span>+254 721 353753</span>
+                <span>+254 103 002 049</span>
               </a>
-              <a href="mailto:info@ivorycrest.com" className="flex items-center gap-2 hover:text-primary transition-colors">
+              <a href="mailto:info@ivorycrest.co.ke" className="flex items-center gap-2 hover:text-primary transition-colors">
                 <Mail className="w-4 h-4" />
-                <span>info@ivorycrest.com</span>
+                <span>info@ivorycrest.co.ke</span>
               </a>
             </div>
             <div className="flex items-center gap-2 text-muted-foreground">
               <MapPin className="w-4 h-4" />
-              <span>Kilimani, Nairobi</span>
+              <span>Westlands, Nairobi</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Main Header */}
-      <div className="bg-background/95 backdrop-blur-md border-b border-border">
+      <div className="bg-white/95 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3">
               <img src="/ivory-crest-logo.png" alt="Ivory Crest" className="h-12 w-auto object-contain transition-transform duration-300 hover:scale-105" />
-              <div className="hidden sm:block">
-                <h1 className="font-display text-xl font-bold text-foreground">IVORY <span className="text-primary">CREST</span></h1>
-                <p className="text-xs text-muted-foreground">Prestige. Exclusivity. Excellence</p>
-              </div>
+
             </Link>
 
             {/* Desktop Navigation */}
@@ -132,7 +149,7 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden border-t border-border bg-background">
+          <div className="lg:hidden border-t border-border bg-white">
             <div className="container mx-auto px-4 py-4">
               <nav className="flex flex-col gap-2">
                 {navLinks.map((link) => (

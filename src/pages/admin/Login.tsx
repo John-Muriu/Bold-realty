@@ -44,7 +44,7 @@ const AdminLogin = () => {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="admin@ivorycrest.com"
+                            placeholder="admin@ivorycrest.co.ke"
                             required
                         />
                     </div>

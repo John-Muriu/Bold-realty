@@ -25,6 +25,7 @@ interface Property {
   featured: boolean;
   image_url: string | null;
   units_available: number | null;
+  images: string[] | null;
 }
 
 const Properties = () => {
@@ -63,10 +64,10 @@ const Properties = () => {
         query = query.ilike("property_type", `%${filters.propertyType}%`);
       }
       if (filters.listingType) {
-        query = query.eq("listing_type", filters.listingType);
+        query = query.eq("listing_type", filters.listingType as any);
       }
       if (filters.status) {
-        query = query.eq("status", filters.status);
+        query = query.eq("status", filters.status as any);
       }
       if (filters.search) {
         query = query.or(`title.ilike.%${filters.search}%,location.ilike.%${filters.search}%`);
@@ -75,7 +76,7 @@ const Properties = () => {
       const { data, error } = await query.order("featured", { ascending: false }).order("created_at", { ascending: false });
 
       if (!error && data) {
-        setProperties(data as Property[]);
+        setProperties(data as unknown as Property[]);
       }
       setLoading(false);
     };
@@ -180,6 +181,8 @@ const Properties = () => {
                   {propertyTypes.map((type) => (
                     <option key={type} value={type}>{type}</option>
                   ))}
+                  <option value="Commercial">Commercial</option>
+                  <option value="House">House</option>
                 </select>
 
                 <select
@@ -198,8 +201,9 @@ const Properties = () => {
                   className="h-12 px-4 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                 >
                   <option value="">All Status</option>
-                  <option value="ready">Ready</option>
+                  <option value="ready">Ready (Complete)</option>
                   <option value="off-plan">Off-Plan</option>
+                  <option value="ongoing">Ongoing</option>
                 </select>
 
                 {hasActiveFilters && (

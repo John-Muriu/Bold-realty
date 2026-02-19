@@ -3,6 +3,7 @@ import { Target, Eye, Heart, Award, Users, TrendingUp, ArrowRight } from "lucide
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
+import TestimonialsSection from "@/components/home/TestimonialsSection";
 
 const About = () => {
   const values = [
@@ -197,6 +198,9 @@ const About = () => {
             </div>
           </div>
         </section>
+
+        {/* Testimonials */}
+        <TestimonialsSection />
       </main>
 
       <Footer />

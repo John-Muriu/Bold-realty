@@ -6,6 +6,7 @@ import FeaturedProperties from "@/components/home/FeaturedProperties";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import InsightsSection from "@/components/home/InsightsSection";
 import CTASection from "@/components/home/CTASection";
+import TopLocations from "@/components/home/TopLocations";
 
 const Index = () => {
   return (
@@ -13,18 +14,16 @@ const Index = () => {
       <Header />
       <main>
         <HeroSection />
-        <StatsSection />
-
         <FeaturedProperties
           title="Featured Properties"
           description="Explore our exclusive collection of premium properties across Nairobi"
           filter={{ featured: true }}
-          limit={3}
-          backgroundImage="/westlands-bg.png"
+          limit={4}
         />
-        <TestimonialsSection />
+        <TopLocations />
         <InsightsSection />
         <CTASection />
+        <StatsSection />
       </main>
       <Footer />
     </div>

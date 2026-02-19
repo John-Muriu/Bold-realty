@@ -1,10 +1,11 @@
+
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Upload, X, Loader2 } from "lucide-react";
 import { watermarkImage } from "@/lib/watermark";
-import { supabase } from "@/integrations/supabase/client";
+import { useImageUpload } from "@/hooks/useImageUpload";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
 interface ImageUploadProps {
     onImagesUploaded: (urls: string[]) => void;
@@ -13,8 +14,9 @@ interface ImageUploadProps {
 }
 
 const ImageUpload = ({ onImagesUploaded, existingImages = [], maxImages = 10 }: ImageUploadProps) => {
-    const [uploading, setUploading] = useState(false);
+    const [watermarking, setWatermarking] = useState(false);
     const [previews, setPreviews] = useState<string[]>(existingImages);
+    const { uploadImages, isUploading, progress } = useImageUpload();
 
     const onDrop = useCallback(async (acceptedFiles: File[]) => {
         if (previews.length + acceptedFiles.length > maxImages) {
@@ -22,44 +24,44 @@ const ImageUpload = ({ onImagesUploaded, existingImages = [], maxImages = 10 }: 
             return;
         }
 
-        setUploading(true);
-        const newUrls: string[] = [];
+        setWatermarking(true);
 
         try {
+            const filesToUpload: File[] = [];
+
+            // 1. Watermark images
             for (const file of acceptedFiles) {
-                // 1. Watermark the image
-                const watermarkedBlob = await watermarkImage(file);
-
-                // 2. Upload to Supabase
-                const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.]/g, '')}`;
-                const { data, error } = await supabase.storage
-                    .from("property-images")
-                    .upload(fileName, watermarkedBlob, {
-                        contentType: "image/jpeg",
-                        upsert: false
-                    });
-
-                if (error) throw error;
-
-                // 3. Get Public URL
-                const { data: { publicUrl } } = supabase.storage
-                    .from("property-images")
-                    .getPublicUrl(fileName);
-
-                newUrls.push(publicUrl);
+                try {
+                    const watermarkedBlob = await watermarkImage(file);
+                    // Create a new File from the blob, keeping the original name but ensuring correct type
+                    // We pass it to the hook which will convert to WebP anyway
+                    const watermarkedFile = new File([watermarkedBlob], file.name, { type: "image/jpeg" });
+                    filesToUpload.push(watermarkedFile);
+                } catch (err) {
+                    console.error("Watermarking failed for", file.name, err);
+                    toast.error(`Failed to process ${file.name}`);
+                }
             }
 
-            const updatedImages = [...previews, ...newUrls];
-            setPreviews(updatedImages);
-            onImagesUploaded(updatedImages);
-            toast.success("Images uploaded and watermarked successfully!");
+            setWatermarking(false);
+
+            if (filesToUpload.length > 0) {
+                // 2. Upload using the hook (handles compression, WebP conversion, renaming)
+                const newUrls = await uploadImages(filesToUpload);
+
+                if (newUrls.length > 0) {
+                    const updatedImages = [...previews, ...newUrls];
+                    setPreviews(updatedImages);
+                    onImagesUploaded(updatedImages);
+                    toast.success("Images uploaded successfully!");
+                }
+            }
         } catch (error) {
             console.error("Upload failed", error);
             toast.error("Failed to upload images. Please try again.");
-        } finally {
-            setUploading(false);
+            setWatermarking(false);
         }
-    }, [previews, maxImages, onImagesUploaded]);
+    }, [previews, maxImages, onImagesUploaded, uploadImages]);
 
     const removeImage = (indexToRemove: number) => {
         const updatedImages = previews.filter((_, index) => index !== indexToRemove);
@@ -72,7 +74,7 @@ const ImageUpload = ({ onImagesUploaded, existingImages = [], maxImages = 10 }: 
         accept: {
             'image/*': ['.png', '.jpg', '.jpeg', '.webp']
         },
-        disabled: uploading
+        disabled: watermarking || isUploading
     });
 
     return (
@@ -80,19 +82,29 @@ const ImageUpload = ({ onImagesUploaded, existingImages = [], maxImages = 10 }: 
             <div
                 {...getRootProps()}
                 className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors ${isDragActive ? "border-primary bg-primary/5" : "border-gray-300 hover:border-primary"
-                    } ${uploading ? "opacity-50 cursor-not-allowed" : ""}`}
+                    } ${(watermarking || isUploading) ? "opacity-50 cursor-not-allowed" : ""}`}
             >
                 <input {...getInputProps()} />
                 <div className="flex flex-col items-center gap-2">
-                    {uploading ? (
-                        <Loader2 className="w-10 h-10 text-primary animate-spin" />
+                    {watermarking || isUploading ? (
+                        <div className="w-full max-w-xs space-y-2">
+                            <Loader2 className="w-10 h-10 text-primary animate-spin mx-auto" />
+                            <p className="font-medium text-gray-600">
+                                {watermarking ? "Watermarking Images..." : "Compressing & Uploading..."}
+                            </p>
+                            {isUploading && (
+                                <Progress value={progress} className="h-2 w-full" />
+                            )}
+                        </div>
                     ) : (
-                        <Upload className="w-10 h-10 text-gray-400" />
+                        <>
+                            <Upload className="w-10 h-10 text-gray-400" />
+                            <p className="font-medium text-gray-600">
+                                Drag & drop images here, or click to select
+                            </p>
+                        </>
                     )}
-                    <p className="font-medium text-gray-600">
-                        {uploading ? "Processing & Watermarking..." : "Drag & drop images here, or click to select"}
-                    </p>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-gray-400 mt-2">
                         Supports: JPG, PNG, WEBP (Max {maxImages} images)
                     </p>
                 </div>

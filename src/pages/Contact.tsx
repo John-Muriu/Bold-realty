@@ -164,7 +164,7 @@ const Contact = () => {
                   </a>
 
                   <a
-                    href="mailto:info@ivorycrest.com"
+                    href="mailto:info@ivorycrest.co.ke"
                     className="flex items-start gap-4 p-4 rounded-xl bg-blue-500/5 hover:bg-blue-500/10 transition-colors"
                   >
                     <div className="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
@@ -172,7 +172,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-foreground mb-1">Email</h3>
-                      <p className="text-muted-foreground">info@ivorycrest.com</p>
+                      <p className="text-muted-foreground">info@ivorycrest.co.ke</p>
                     </div>
                   </a>
                 </div>

@@ -13,19 +13,19 @@ const SEO = ({
     title,
     description = "Discover premium properties, luxury apartments, and exclusive homes for sale and rent in Nairobi's most sought-after locations like Kilimani, Westlands, and Karen.",
     image = "/ivory-crest-logo.png",
-    url = "https://ivorycrest.com",
+    url = "https://ivorycrest.co.ke",
     type = "website",
     schema
 }: SEOProps) => {
     const siteTitle = `${title} | Ivory Crest - Premier Real Estate in Kenya`;
-    const fullUrl = url.startsWith("http") ? url : `https://ivorycrest.com${url}`;
+    const fullUrl = url.startsWith("http") ? url : `https://ivorycrest.co.ke${url}`;
 
     // Default Organization Schema
     const defaultSchema = {
         "@context": "https://schema.org",
         "@type": "RealEstateAgent",
         "name": "Ivory Crest",
-        "image": "https://ivorycrest.com/ivory-crest-logo.png",
+        "image": "https://ivorycrest.co.ke/ivory-crest-logo.png",
         "description": description,
         "address": {
             "@type": "PostalAddress",
@@ -36,7 +36,7 @@ const SEO = ({
             "addressCountry": "KE"
         },
         "telephone": "+2540103002049",
-        "url": "https://ivorycrest.com"
+        "url": "https://ivorycrest.co.ke"
     };
 
     return (

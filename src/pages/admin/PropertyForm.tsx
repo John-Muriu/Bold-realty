@@ -37,6 +37,10 @@ const PropertyForm = () => {
         status: "ready",
         featured: false,
         neighbourhood: "",
+        seo_title: "",
+        seo_description: "",
+        slug: "",
+        seo_keywords: "",
     });
 
     const [categories, setCategories] = useState<{ property_type: any[], listing_type: any[] }>({
@@ -52,11 +56,13 @@ const PropertyForm = () => {
     }, [id]);
 
     const fetchCategories = async () => {
+        // @ts-ignore
         const { data } = await supabase.from('property_categories').select('*');
         if (data) {
+            const categoriesData = data as any[];
             setCategories({
-                property_type: data.filter(c => c.category_type === 'property_type'),
-                listing_type: data.filter(c => c.category_type === 'listing_type'),
+                property_type: categoriesData.filter(c => c.category_type === 'property_type'),
+                listing_type: categoriesData.filter(c => c.category_type === 'listing_type'),
             });
         }
     };
@@ -64,24 +70,37 @@ const PropertyForm = () => {
     const fetchProperty = async () => {
         const { data } = await supabase.from("properties").select("*").eq("id", id).single();
         if (data) {
+            // Safe casting and defaulting
+            const property: any = data;
             setFormData({
-                ...data,
-                price: data.price.toString(),
-                bedrooms: data.bedrooms.toString(),
-                bathrooms: data.bathrooms.toString(),
-                size_sqm: data.size_sqm?.toString() || "",
-                images: data.images || [data.image_url],
-                neighbourhood: data.neighbourhood || ""
+                title: property.title,
+                description: property.description || "",
+                location: property.location,
+                price: property.price.toString(),
+                image_url: property.image_url || "",
+                images: property.images || [property.image_url],
+                bedrooms: property.bedrooms.toString(),
+                bathrooms: property.bathrooms.toString(),
+                size_sqm: property.size_sqm?.toString() || "",
+                property_type: property.property_type,
+                listing_type: property.listing_type,
+                status: property.status,
+                featured: property.featured,
+                neighbourhood: property.neighbourhood || "",
+                seo_title: property.seo_title || "",
+                seo_description: property.seo_description || "",
+                slug: property.slug || "",
+                seo_keywords: property.seo_keywords || "",
             });
 
             // Parse amenities array to string
-            if (data.amenities && Array.isArray(data.amenities)) {
-                setAmenitiesInput(data.amenities.join(", "));
+            if (property.amenities && Array.isArray(property.amenities)) {
+                setAmenitiesInput(property.amenities.join(", "));
             }
 
             // Parse units jsonb
-            if (data.units && Array.isArray(data.units)) {
-                setUnits(data.units);
+            if (property.units && Array.isArray(property.units)) {
+                setUnits(property.units);
             }
         }
     };
@@ -125,18 +144,30 @@ const PropertyForm = () => {
         const amenitiesArray = amenitiesInput.split(",").map(item => item.trim()).filter(Boolean);
 
         const propertyData = {
-            ...formData,
+            title: formData.title,
+            description: formData.description,
+            location: formData.location,
             price: parseFloat(formData.price),
             bedrooms: parseInt(formData.bedrooms),
             bathrooms: parseInt(formData.bathrooms),
             size_sqm: formData.size_sqm ? parseInt(formData.size_sqm) : null,
+            property_type: formData.property_type,
+            listing_type: formData.listing_type as "buy" | "rent", // Type assertion for Supabase
+            status: formData.status as "ready" | "off-plan" | "sold", // Type assertion for Supabase
+            featured: formData.featured,
+            image_url: formData.image_url,
             images: formData.images,
             neighbourhood: formData.neighbourhood,
             amenities: amenitiesArray,
-            units: units // Supabase handles JSONB automatically from JS objects/arrays
+            units: units,
+            seo_title: formData.seo_title,
+            seo_description: formData.seo_description,
+            slug: formData.slug,
+            seo_keywords: formData.seo_keywords,
         };
 
         if (id) {
+            // @ts-ignore - Ignoring TS error for dynamic SEO fields potentially missing in strict types until generated
             const { error } = await supabase.from("properties").update(propertyData).eq("id", id);
             if (error) {
                 console.error(error);
@@ -146,6 +177,7 @@ const PropertyForm = () => {
                 navigate("/admin/properties");
             }
         } else {
+            // @ts-ignore - Ignoring TS error for dynamic SEO fields potentially missing in strict types until generated
             const { error } = await supabase.from("properties").insert([propertyData]);
             if (error) {
                 console.error(error);
@@ -341,6 +373,55 @@ const PropertyForm = () => {
                                 </Button>
                             </div>
                         ))}
+                    </div>
+                </div>
+
+                {/* SEO Settings */}
+                <div className="space-y-4">
+                    <h3 className="text-lg font-semibold border-b pb-2">SEO Settings</h3>
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Meta Title</label>
+                        <Input
+                            name="seo_title"
+                            value={formData.seo_title || ""}
+                            onChange={handleChange}
+                            placeholder="e.g. Clermont Residence – Nairobi Apartments for Sale in Westlands"
+                        />
+                        <p className="text-xs text-muted-foreground mt-1">Recommended length: 50-60 characters</p>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Meta Description</label>
+                        <Textarea
+                            name="seo_description"
+                            value={formData.seo_description || ""}
+                            onChange={handleChange}
+                            placeholder="e.g. Discover Clermont Residence Nairobi apartments for sale..."
+                            className="h-24"
+                        />
+                        <p className="text-xs text-muted-foreground mt-1">Recommended length: 150-160 characters</p>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Slug (URL)</label>
+                        <Input
+                            name="slug"
+                            value={formData.slug || ""}
+                            onChange={handleChange}
+                            placeholder="e.g. clermont-residence-nairobi-apartments-for-sale"
+                        />
+                        <p className="text-xs text-muted-foreground mt-1">Use hyphens, no spaces. Leave blank to auto-generate from title.</p>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Keywords</label>
+                        <Input
+                            name="seo_keywords"
+                            value={formData.seo_keywords || ""}
+                            onChange={handleChange}
+                            placeholder="e.g. Nairobi apartments, Westlands for sale, luxury homes"
+                        />
+                        <p className="text-xs text-muted-foreground mt-1">Comma separated</p>
                     </div>
                 </div>
 

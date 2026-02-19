@@ -13,6 +13,7 @@ import About from "./pages/About";
 import Insights from "./pages/Insights";
 import BlogDetail from "./pages/BlogDetail";
 import NotFound from "./pages/NotFound";
+import Locations from "./pages/Locations";
 
 // Admin Imports
 import AdminLayout from "@/pages/admin/AdminLayout";
@@ -40,6 +41,7 @@ const App = () => (
             {/* Public Routes */}
             <Route path="/" element={<Index />} />
             <Route path="/properties" element={<Properties />} />
+            <Route path="/locations" element={<Locations />} />
             <Route path="/properties/:id" element={<PropertyDetail />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />

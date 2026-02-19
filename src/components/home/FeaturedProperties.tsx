@@ -22,6 +22,7 @@ interface Property {
   featured: boolean;
   image_url: string | null;
   units_available: number | null;
+  images: string[] | null;
 }
 
 interface FeaturedPropertiesProps {
@@ -40,7 +41,7 @@ const FeaturedProperties = ({
   description = "Our handpicked selection of premium properties offering exceptional value and prime locations",
   className = "",
   filter = { featured: true },
-  limit = 3
+  limit = 4
 }: FeaturedPropertiesProps) => {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
@@ -64,7 +65,7 @@ const FeaturedProperties = ({
       const { data, error } = await query;
 
       if (!error && data) {
-        setProperties(data as Property[]);
+        setProperties(data as unknown as Property[]);
       }
       setLoading(false);
     };
@@ -80,7 +81,7 @@ const FeaturedProperties = ({
             <div className="h-8 w-48 bg-muted rounded-lg mx-auto mb-4 animate-pulse" />
             <div className="h-4 w-96 bg-muted rounded mx-auto animate-pulse" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[...Array(limit)].map((_, i) => (
               <div key={i} className="bg-card rounded-xl overflow-hidden animate-pulse">
                 <div className="aspect-[4/3] bg-muted" />
@@ -116,7 +117,7 @@ const FeaturedProperties = ({
         </div>
 
         {/* Properties Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {properties.map((property, index) => (
             <div
               key={property.id}

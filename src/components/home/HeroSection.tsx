@@ -5,6 +5,12 @@ import { Button } from "@/components/ui/button";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
+// Import local assets
+import hero1 from "@/assets/hero-2.jpg";
+import hero2 from "@/assets/coworking.webp";
+import hero3 from "@/assets/reception4.webp";
+import hero4 from "@/assets/residence_lounge7.webp";
+
 const HeroSection = () => {
   const navigate = useNavigate();
   const [filters, setFilters] = useState({
@@ -20,10 +26,10 @@ const HeroSection = () => {
   ]);
 
   const heroImages = [
-    "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop", // Modern Villa
-    "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2075&auto=format&fit=crop", // Luxury Interior
-    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2075&auto=format&fit=crop", // Poolside
-    "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2075&auto=format&fit=crop", // Modern Mansion
+    hero1, // Modern Villa
+    hero2, // Luxury Interior
+    hero3, // Poolside
+    hero4, // Modern Mansion
   ];
 
   const locations = [
@@ -54,7 +60,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Carousel Background */}
       <div className="absolute inset-0 z-0 bg-navy" ref={emblaRef}>
         <div className="flex h-full">
@@ -65,71 +71,65 @@ const HeroSection = () => {
                 alt={`Hero Property ${index + 1}`}
                 className="w-full h-full object-cover"
               />
-              {/* Overlay for readability */}
-              <div className="absolute inset-0 bg-gradient-to-r from-navy/90 via-navy/70 to-navy/30" />
+              {/* Clean minimal overlay */}
+              <div className="absolute inset-0 bg-black/40" />
             </div>
           ))}
         </div>
       </div>
 
-      {/* Floating Elements */}
-      <div className="absolute top-1/4 left-10 w-20 h-20 bg-primary/20 rounded-full blur-xl animate-float z-10" />
-      <div className="absolute bottom-1/4 right-10 w-32 h-32 bg-primary/20 rounded-full blur-2xl animate-float z-10" style={{ animationDelay: "1s" }} />
+      <div className="container mx-auto px-4 relative z-20 pt-20">
+        <div className="max-w-5xl mx-auto">
 
-      <div className="container mx-auto px-4 pt-32 pb-20 relative z-20">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Tag */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-8 animate-fade-up">
-            <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
-            <span className="text-sm text-gold font-medium">Premium Real Estate</span>
+          {/* Content Wrapper */}
+          <div className="text-center mb-12">
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight animate-fade-up">
+              Building Dreams, <br className="hidden md:block" />
+              <span className="text-white">One Home at a Time</span>
+            </h1>
+
+            <p className="text-base md:text-lg text-gray-200 max-w-2xl mx-auto font-light leading-relaxed animate-fade-up delay-100">
+              Connect with premium properties across Nairobi's most sought-after locations.
+            </p>
           </div>
 
-          {/* Main Heading */}
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 animate-fade-up delay-100">
-            Building Dreams,{" "}
-            <span className="text-gradient-gold">One Home</span>{" "}
-            at a Time
-          </h1>
-
-          <p className="text-lg md:text-xl text-gray-200 mb-12 max-w-2xl mx-auto animate-fade-up delay-200 text-shadow-sm">
-            Discover your dream home today. We connect you with premium properties across Nairobi's most sought-after locations.
-          </p>
-
-          {/* Search Card */}
-          <div className="bg-black/40 backdrop-blur-xl rounded-2xl border border-white/10 p-6 md:p-8 animate-fade-up delay-300 shadow-2xl">
-            {/* Listing Type Tabs */}
-            <div className="flex items-center gap-2 mb-6">
-              <button
-                onClick={() => setFilters({ ...filters, listingType: "buy" })}
-                className={`px-6 py-2.5 rounded-lg font-medium text-sm transition-all ${filters.listingType === "buy"
-                  ? "bg-gold text-white shadow-gold hover:bg-gold-light"
-                  : "bg-black/40 text-gray-300 hover:bg-black/60 border border-white/5"
-                  }`}
-              >
-                Buy
-              </button>
-              <button
-                onClick={() => setFilters({ ...filters, listingType: "rent" })}
-                className={`px-6 py-2.5 rounded-lg font-medium text-sm transition-all ${filters.listingType === "rent"
-                  ? "bg-gold text-white shadow-gold hover:bg-gold-light"
-                  : "bg-black/40 text-gray-300 hover:bg-black/60 border border-white/5"
-                  }`}
-              >
-                Rent
-              </button>
+          {/* Search Card - Minimal & Clean */}
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 shadow-2xl animate-fade-up delay-200">
+            {/* Tabs */}
+            <div className="flex justify-center mb-6">
+              <div className="bg-black/20 p-1 rounded-lg inline-flex">
+                <button
+                  onClick={() => setFilters({ ...filters, listingType: "buy" })}
+                  className={`px-8 py-2 rounded-md text-sm font-medium transition-all ${filters.listingType === "buy"
+                    ? "bg-white text-navy shadow-sm"
+                    : "text-gray-300 hover:text-white"
+                    }`}
+                >
+                  Buy
+                </button>
+                <button
+                  onClick={() => setFilters({ ...filters, listingType: "rent" })}
+                  className={`px-8 py-2 rounded-md text-sm font-medium transition-all ${filters.listingType === "rent"
+                    ? "bg-white text-navy shadow-sm"
+                    : "text-gray-300 hover:text-white"
+                    }`}
+                >
+                  Rent
+                </button>
+              </div>
             </div>
 
-            {/* Search Filters */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Filters Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
               {/* Location */}
-              <div className="relative">
-                <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <div className="md:col-span-3 relative group">
+                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-white transition-colors" />
                 <select
                   value={filters.location}
                   onChange={(e) => setFilters({ ...filters, location: e.target.value })}
-                  className="w-full h-14 pl-12 pr-4 rounded-xl bg-black/50 border border-white/10 text-white appearance-none cursor-pointer focus:outline-none focus:border-gold/50 transition-colors hover:bg-black/60"
+                  className="w-full h-12 pl-10 pr-4 rounded-lg bg-black/20 border border-white/10 text-white text-sm focus:outline-none focus:bg-black/40 focus:border-white/30 transition-all appearance-none cursor-pointer"
                 >
-                  <option value="" className="bg-gray-900 text-gray-300">Select Location</option>
+                  <option value="" className="bg-gray-900 text-gray-400">Location</option>
                   {locations.map((loc) => (
                     <option key={loc} value={loc} className="bg-gray-900 text-white">{loc}</option>
                   ))}
@@ -137,14 +137,14 @@ const HeroSection = () => {
               </div>
 
               {/* Property Type */}
-              <div className="relative">
-                <Home className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <div className="md:col-span-3 relative group">
+                <Home className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-white transition-colors" />
                 <select
                   value={filters.propertyType}
                   onChange={(e) => setFilters({ ...filters, propertyType: e.target.value })}
-                  className="w-full h-14 pl-12 pr-4 rounded-xl bg-black/50 border border-white/10 text-white appearance-none cursor-pointer focus:outline-none focus:border-gold/50 transition-colors hover:bg-black/60"
+                  className="w-full h-12 pl-10 pr-4 rounded-lg bg-black/20 border border-white/10 text-white text-sm focus:outline-none focus:bg-black/40 focus:border-white/30 transition-all appearance-none cursor-pointer"
                 >
-                  <option value="" className="bg-gray-900 text-gray-300">Property Type</option>
+                  <option value="" className="bg-gray-900 text-gray-400">Type</option>
                   {propertyTypes.map((type) => (
                     <option key={type} value={type} className="bg-gray-900 text-white">{type}</option>
                   ))}
@@ -152,14 +152,14 @@ const HeroSection = () => {
               </div>
 
               {/* Price Range */}
-              <div className="relative">
-                <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <div className="md:col-span-3 relative group">
+                <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-white transition-colors" />
                 <select
                   value={filters.priceRange}
                   onChange={(e) => setFilters({ ...filters, priceRange: e.target.value })}
-                  className="w-full h-14 pl-12 pr-4 rounded-xl bg-black/50 border border-white/10 text-white appearance-none cursor-pointer focus:outline-none focus:border-gold/50 transition-colors hover:bg-black/60"
+                  className="w-full h-12 pl-10 pr-4 rounded-lg bg-black/20 border border-white/10 text-white text-sm focus:outline-none focus:bg-black/40 focus:border-white/30 transition-all appearance-none cursor-pointer"
                 >
-                  <option value="" className="bg-gray-900 text-gray-300">Price Range</option>
+                  <option value="" className="bg-gray-900 text-gray-400">Price</option>
                   {priceRanges.map((range) => (
                     <option key={range.value} value={range.value} className="bg-gray-900 text-white">{range.label}</option>
                   ))}
@@ -167,32 +167,17 @@ const HeroSection = () => {
               </div>
 
               {/* Search Button */}
-              <Button onClick={handleSearch} variant="gold" size="xl" className="w-full">
-                <Search className="w-5 h-5" />
-                <span>Find Properties</span>
-              </Button>
+              <div className="md:col-span-3">
+                <Button
+                  onClick={handleSearch}
+                  className="w-full h-12 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg text-sm border-0"
+                >
+                  Search
+                </Button>
+              </div>
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="flex flex-wrap items-center justify-center gap-4 mt-8 animate-fade-up delay-400">
-            <Button variant="glass" onClick={() => navigate("/properties")}>
-              All Listings
-              <ArrowRight className="w-4 h-4" />
-            </Button>
-            <Button variant="glass" onClick={() => navigate("/contact")}>
-              Contact Our Experts
-              <ArrowRight className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-300 animate-fade-up delay-500 z-20">
-        <span className="text-sm">Scroll to explore</span>
-        <div className="w-6 h-10 rounded-full border-2 border-gray-300 flex justify-center pt-2">
-          <div className="w-1 h-2 rounded-full bg-gold animate-bounce" />
         </div>
       </div>
     </section>

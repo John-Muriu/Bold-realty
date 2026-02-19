@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, MapPin, Bed, Bath, Square, Phone, MessageCircle, Check, Share2 } from "lucide-react";
+import { ArrowLeft, MapPin, Bed, Bath, Square, Phone, MessageCircle, Check, Share2, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import SEO from "@/components/seo/SEO";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface Property {
   id: string;
@@ -25,12 +30,15 @@ interface Property {
   image_url: string | null;
   units_available: number | null;
   amenities: string[] | null;
+  images: string[] | null;
 }
 
 const PropertyDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [property, setProperty] = useState<Property | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -43,7 +51,7 @@ const PropertyDetail = () => {
         .maybeSingle();
 
       if (!error && data) {
-        setProperty(data as Property);
+        setProperty(data as unknown as Property);
       }
       setLoading(false);
     };
@@ -62,6 +70,43 @@ const PropertyDetail = () => {
     navigator.clipboard.writeText(window.location.href);
     toast.success("Link copied to clipboard!");
   };
+
+  const openLightbox = (index: number) => {
+    setCurrentImageIndex(index);
+    setIsLightboxOpen(true);
+  };
+
+  const propertySchema = property ? {
+    "@context": "https://schema.org",
+    "@type": "RealEstateListing",
+    "name": property.title,
+    "description": property.description,
+    "url": window.location.href,
+    "image": property.images || [property.image_url],
+    "datePosted": new Date().toISOString().split('T')[0],
+    "offers": {
+      "@type": "Offer",
+      "price": property.price,
+      "priceCurrency": "KES",
+      "availability": property.units_available && property.units_available > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+    },
+    "provider": {
+      "@type": "RealEstateAgent",
+      "name": "Ivory Crest",
+      "image": "https://ivorycrest.co.ke/ivory-crest-logo.png",
+      "telephone": "+2540103002049",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Argwings Kodhek Road",
+        "addressLocality": "Kilimani, Nairobi",
+        "addressRegion": "Nairobi",
+        "postalCode": "00100",
+        "addressCountry": "KE"
+      }
+    }
+  } : undefined;
+
+  const images = property?.images?.length ? property.images : (property?.image_url ? [property.image_url] : []);
 
   if (loading) {
     return (
@@ -115,7 +160,50 @@ const PropertyDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {property && (
+        <SEO
+          title={property.title}
+          description={property.description || `Check out ${property.title} in ${property.location}`}
+          image={property.image_url || undefined}
+          type="product"
+          schema={propertySchema}
+        />
+      )}
       <Header />
+
+      {/* Lightbox Dialog */}
+      <Dialog open={isLightboxOpen} onOpenChange={setIsLightboxOpen}>
+        <DialogContent className="max-w-[95vw] h-[90vh] bg-black/90 border-none p-0 flex items-center justify-center">
+          <button
+            onClick={() => setIsLightboxOpen(false)}
+            className="absolute top-4 right-4 z-50 p-2 text-white/70 hover:text-white bg-black/50 rounded-full transition-colors"
+            aria-label="Close lightbox"
+          >
+            <X className="w-6 h-6" />
+          </button>
+          <Carousel
+            className="w-full h-full flex items-center justify-center"
+            opts={{ startIndex: currentImageIndex, loop: true }}
+          >
+            <CarouselContent>
+              {images.map((img, idx) => (
+                <CarouselItem key={idx} className="flex items-center justify-center h-full">
+                  {img && (
+                    <img
+                      src={img}
+                      alt={`View ${idx + 1}`}
+                      className="max-w-full max-h-full object-contain"
+                      onContextMenu={(e) => e.preventDefault()}
+                    />
+                  )}
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-4 bg-white/10 hover:bg-white/20 text-white border-none" />
+            <CarouselNext className="right-4 bg-white/10 hover:bg-white/20 text-white border-none" />
+          </Carousel>
+        </DialogContent>
+      </Dialog>
 
       <main className="pt-32 pb-20">
         <div className="container mx-auto px-4">
@@ -131,11 +219,15 @@ const PropertyDetail = () => {
           {/* Gallery Section */}
           <div className="space-y-4 mb-8">
             {/* Main Image */}
-            <div className="relative h-[300px] md:h-[400px] lg:h-[500px] rounded-2xl overflow-hidden group cursor-pointer" onClick={() => window.open(property.image_url || "", "_blank")}>
+            <div
+              className="relative h-[300px] md:h-[400px] lg:h-[500px] rounded-2xl overflow-hidden group cursor-pointer"
+              onClick={() => openLightbox(0)}
+            >
               <img
                 src={property.image_url || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200"}
                 alt={property.title}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                onContextMenu={(e) => e.preventDefault()}
               />
 
               {/* Badges */}
@@ -175,13 +267,14 @@ const PropertyDetail = () => {
                   <div
                     key={idx}
                     className="aspect-square rounded-lg overflow-hidden cursor-pointer border-2 border-transparent hover:border-primary transition-all"
-                    onClick={() => window.open(img, "_blank")}
+                    onClick={() => openLightbox(idx)}
                   >
                     <img
                       src={img}
                       alt={`View ${idx + 1}`}
                       className="w-full h-full object-cover hover:opacity-90 transition-opacity"
                       loading="lazy"
+                      onContextMenu={(e) => e.preventDefault()}
                     />
                   </div>
                 ))}
@@ -236,9 +329,23 @@ const PropertyDetail = () => {
                 <h2 className="font-display text-2xl font-semibold text-foreground mb-4">
                   Description
                 </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  {property.description || "No description available."}
-                </p>
+                <div className="prose prose-stone max-w-none text-muted-foreground leading-relaxed">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      h1: ({ node, ...props }) => <h3 className="text-xl font-bold text-foreground mt-6 mb-3" {...props} />,
+                      h2: ({ node, ...props }) => <h4 className="text-lg font-bold text-foreground mt-5 mb-2" {...props} />,
+                      h3: ({ node, ...props }) => <h5 className="text-base font-bold text-foreground mt-4 mb-2" {...props} />,
+                      p: ({ node, ...props }) => <p className="mb-4 last:mb-0 whitespace-pre-line" {...props} />,
+                      ul: ({ node, ...props }) => <ul className="list-disc pl-5 mb-4 space-y-1" {...props} />,
+                      ol: ({ node, ...props }) => <ol className="list-decimal pl-5 mb-4 space-y-1" {...props} />,
+                      li: ({ node, ...props }) => <li className="pl-1" {...props} />,
+                      strong: ({ node, ...props }) => <strong className="font-semibold text-foreground" {...props} />,
+                    }}
+                  >
+                    {property.description || "No description available."}
+                  </ReactMarkdown>
+                </div>
               </div>
 
               {/* Amenities */}
@@ -300,9 +407,9 @@ const PropertyDetail = () => {
                     </a>
                   </Button>
                   <Button variant="secondary" size="lg" className="w-full" asChild>
-                    <Link to="/contact">
+                    <a href="https://book.settime.io/ivory-crest" target="_blank" rel="noopener noreferrer">
                       Schedule Viewing
-                    </Link>
+                    </a>
                   </Button>
                 </div>
 
