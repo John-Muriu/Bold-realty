@@ -8,7 +8,8 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "supabase:keep-alive": "node ./scripts/keep-supabase-alive.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
