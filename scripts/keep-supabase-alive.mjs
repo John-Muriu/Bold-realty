@@ -15,6 +15,13 @@ if (process.env.VITE_SUPABASE_SERVICE_ROLE_KEY) {
 
 if (!SUPABASE_URL) {
   console.error("Missing SUPABASE_URL (or VITE_SUPABASE_URL)");
+  console.error("Env present:", {
+    hasSUPABASE_URL: !!process.env.SUPABASE_URL,
+    hasVITE_SUPABASE_URL: !!process.env.VITE_SUPABASE_URL,
+    hasServiceRole: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+    hasAnon: !!process.env.SUPABASE_ANON_KEY,
+    hasVitePublishable: !!process.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+  });
   process.exit(1);
 }
 
