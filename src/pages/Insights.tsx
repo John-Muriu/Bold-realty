@@ -12,7 +12,7 @@ const Insights = () => {
                             Real Estate Insights
                         </h1>
                         <p className="text-muted-foreground max-w-2xl mx-auto">
-                            Expert analysis, market trends, and investment advice from Ivory Crest.
+                            Expert analysis, market trends, and investment advice from Bold Realty.
                         </p>
                     </div>
 

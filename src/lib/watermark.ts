@@ -1,4 +1,4 @@
-export const watermarkImage = async (file: File, logoUrl: string = "/ivory-crest-logo.png"): Promise<Blob> => {
+export const watermarkImage = async (file: File, logoUrl: string = "/bold-realty-logo.png"): Promise<Blob> => {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);

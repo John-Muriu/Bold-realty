@@ -12,20 +12,20 @@ interface SEOProps {
 const SEO = ({
     title,
     description = "Discover premium properties, luxury apartments, and exclusive homes for sale and rent in Nairobi's most sought-after locations like Kilimani, Westlands, and Karen.",
-    image = "/ivory-crest-logo.png",
-    url = "https://ivorycrest.co.ke",
+    image = "/bold-realty-logo.png",
+    url = "https://boldrealty.co.ke",
     type = "website",
     schema
 }: SEOProps) => {
-    const siteTitle = `${title} | Ivory Crest - Premier Real Estate in Kenya`;
-    const fullUrl = url.startsWith("http") ? url : `https://ivorycrest.co.ke${url}`;
+    const siteTitle = `${title} | Bold Realty - Premier Real Estate in Kenya`;
+    const fullUrl = url.startsWith("http") ? url : `https://boldrealty.co.ke${url}`;
 
     // Default Organization Schema
     const defaultSchema = {
         "@context": "https://schema.org",
         "@type": "RealEstateAgent",
-        "name": "Ivory Crest",
-        "image": "https://ivorycrest.co.ke/ivory-crest-logo.png",
+        "name": "Bold Realty",
+        "image": "https://boldrealty.co.ke/bold-realty-logo.png",
         "description": description,
         "address": {
             "@type": "PostalAddress",
@@ -35,8 +35,8 @@ const SEO = ({
             "postalCode": "00100",
             "addressCountry": "KE"
         },
-        "telephone": "+2540103002049",
-        "url": "https://ivorycrest.co.ke"
+        "telephone": "+254725316343",
+        "url": "https://boldrealty.co.ke"
     };
 
     return (

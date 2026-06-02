@@ -1,7 +1,6 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/home/HeroSection";
-import StatsSection from "@/components/home/StatsSection";
 import FeaturedProperties from "@/components/home/FeaturedProperties";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import InsightsSection from "@/components/home/InsightsSection";
@@ -18,12 +17,11 @@ const Index = () => {
           title="Featured Properties"
           description="Explore our exclusive collection of premium properties across Nairobi"
           filter={{ featured: true }}
-          limit={4}
+          limit={8}
         />
         <TopLocations />
         <InsightsSection />
         <CTASection />
-        <StatsSection />
       </main>
       <Footer />
     </div>

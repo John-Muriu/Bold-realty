@@ -7,8 +7,8 @@ import Autoplay from "embla-carousel-autoplay";
 
 // Import local assets
 import hero1 from "@/assets/hero-2.jpg";
-import hero2 from "@/assets/coworking.webp";
-import hero3 from "@/assets/reception4.webp";
+// import hero2 from "@/assets/coworking.webp";
+// import hero3 from "@/assets/reception4.webp";
 import hero4 from "@/assets/residence_lounge7.webp";
 
 const HeroSection = () => {
@@ -27,8 +27,8 @@ const HeroSection = () => {
 
   const heroImages = [
     hero1, // Modern Villa
-    hero2, // Luxury Interior
-    hero3, // Poolside
+    // hero2, // Luxury Interior
+    // hero3, // Poolside
     hero4, // Modern Mansion
   ];
 
@@ -84,8 +84,8 @@ const HeroSection = () => {
           {/* Content Wrapper */}
           <div className="text-center mb-12">
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight animate-fade-up">
-              Building Dreams, <br className="hidden md:block" />
-              <span className="text-white">One Home at a Time</span>
+              Bold Realty — <br className="hidden md:block" />
+              <span className="text-white">Buy Bold. Live Better.</span>
             </h1>
 
             <p className="text-base md:text-lg text-gray-200 max-w-2xl mx-auto font-light leading-relaxed animate-fade-up delay-100">

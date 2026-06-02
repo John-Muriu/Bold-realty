@@ -45,7 +45,7 @@ export const useImageUpload = () => {
         // Add random suffix for uniqueness
         const randomSuffix = Math.random().toString(36).substring(2, 8);
 
-        const fileName = `ivorycrest-${year}${month}${day}-${hours}${minutes}${seconds}-${randomSuffix}.webp`;
+        const fileName = `boldrealty-${year}${month}${day}-${hours}${minutes}${seconds}-${randomSuffix}.webp`;
 
         // 4. Upload to Supabase
         const { error: uploadError } = await supabase.storage

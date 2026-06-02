@@ -53,7 +53,7 @@ const About = () => {
                 <span className="text-gradient-gold">One Home</span> at a Time
               </h1>
               <p className="text-lg text-gray-300 mb-8">
-                Ivory Crest is a leading real estate agency in Kenya, dedicated to helping families and investors find their perfect properties. With over 15 years of experience, we've built a reputation for excellence, integrity, and exceptional service.
+                Bold Realty is a leading real estate agency in Kenya, dedicated to helping families and investors find their perfect properties. With over 15 years of experience, we've built a reputation for excellence, integrity, and exceptional service.
               </p>
             </div>
           </div>

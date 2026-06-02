@@ -3,16 +3,16 @@ import { Phone, Mail, MapPin, Facebook, Instagram, Twitter, Youtube } from "luci
 
 const Footer = () => {
   return (
-    <footer className="bg-[#063831] text-white">
+    <footer className="bg-[#0b0f19] text-white">
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="space-y-6">
             <Link to="/" className="flex items-center gap-3">
-              <img src="/Ivory-Crest-white.png" alt="Ivory Crest" className="h-16 w-auto object-contain transition-transform duration-300 hover:scale-105" />
+              <img src="/bold-realty-logo-white.png" alt="Bold Realty" className="h-16 w-auto object-contain transition-transform duration-300 hover:scale-105" />
             </Link>
             <p className="text-gray-300 text-sm leading-relaxed">
-              Ivory Crest connects discerning buyers with Kenya's most prestigious properties. Experience the gold standard in real estate.
+              Bold Realty connects discerning buyers with Kenya's most prestigious properties. Experience the gold standard in real estate.
             </p>
             <div className="flex items-center gap-4">
               <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors">
@@ -99,21 +99,21 @@ const Footer = () => {
             <h3 className="font-display text-lg font-semibold mb-6">Contact Us</h3>
             <ul className="space-y-4">
               <li>
-                <a href="tel:+2540103002049" className="flex items-center gap-3 text-gray-300 hover:text-primary transition-colors text-sm">
+                <a href="tel:+254725316343" className="flex items-center gap-3 text-gray-300 hover:text-primary transition-colors text-sm">
                   <Phone className="w-5 h-5 text-primary" />
-                  <span>+254 103 002 049</span>
+                  <span>+254 725 316 343</span>
                 </a>
               </li>
               <li>
-                <a href="mailto:info@ivorycrest.co.ke" className="flex items-center gap-3 text-gray-300 hover:text-primary transition-colors text-sm">
+                <a href="mailto:info@boldrealty.co.ke" className="flex items-center gap-3 text-gray-300 hover:text-primary transition-colors text-sm">
                   <Mail className="w-5 h-5 text-primary" />
-                  <span>info@ivorycrest.co.ke</span>
+                  <span>info@boldrealty.co.ke</span>
                 </a>
               </li>
               <li>
                 <div className="flex items-start gap-3 text-gray-300 text-sm">
                   <MapPin className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                  <span>Sports Road Westlands, Nairobi</span>
+                  <span>Kilimani, Nairobi Kenya</span>
                 </div>
               </li>
             </ul>
@@ -123,7 +123,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400">
-            <p>&copy; {new Date().getFullYear()} Ivory Crest. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} Bold Realty. All rights reserved.</p>
             <p>
               Designed by{" "}
               <a

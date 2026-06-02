@@ -14,7 +14,7 @@ const blogPosts = [
         title: "Why Westlands is the Best Place to Invest in Nairobi",
         excerpt: "Explore why Westlands continues to dominate as Nairobi's premier investment destination with unmatched ROI and growth potential.",
         image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&auto=format&fit=crop",
-        author: "Ivory Crest Investment Team",
+        author: "Bold Realty Investment Team",
         readTime: "8 min read",
         content: `
       <p>Westlands has solidified its position as Nairobi's most sought-after commercial and residential hub, offering exceptional investment opportunities for both local and international investors. This comprehensive guide explores why Westlands remains the top choice for property investment in Kenya's capital city.</p>
@@ -56,7 +56,7 @@ const blogPosts = [
         title: "Why Nairobi is the Next Investment Hub in East Africa",
         excerpt: "Discover how Nairobi is positioning itself as Africa's leading real estate investment destination with unprecedented opportunities.",
         image: "https://images.unsplash.com/photo-1577495508326-19a1b3cf65b7?w=1200&auto=format&fit=crop",
-        author: "Ivory Crest Investment Team",
+        author: "Bold Realty Investment Team",
         readTime: "10 min read",
         content: `
       <p>Nairobi is rapidly emerging as East Africa's premier investment hub, attracting billions in real estate investment from both regional and international investors. This comprehensive analysis explores the factors positioning Kenya's capital as the continent's next major investment destination.</p>
@@ -116,7 +116,7 @@ const blogPosts = [
         title: "The Future of Luxury Real Estate in Nairobi",
         excerpt: "Discover emerging trends and investment opportunities in Nairobi's prime residential areas.",
         image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&auto=format&fit=crop",
-        author: "Ivory Crest Team",
+        author: "Bold Realty Team",
         readTime: "5 min read",
         content: `
       <p>The luxury real estate market in Nairobi is experiencing unprecedented growth, driven by a combination of economic stability, urban development, and an increasing number of high-net-worth individuals seeking premium properties.</p>
@@ -140,7 +140,7 @@ const blogPosts = [
         title: "Minimalist Interiors: A Guide for 2025",
         excerpt: "How to achieve the perfect balance of simplicity and luxury in your modern home.",
         image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&auto=format&fit=crop",
-        author: "Ivory Crest Team",
+        author: "Bold Realty Team",
         readTime: "4 min read",
         content: `
       <p>Minimalism in interior design is not just about reducing clutter—it's about creating spaces that breathe, inspire, and elevate your living experience while maintaining luxury and comfort.</p>
@@ -164,7 +164,7 @@ const blogPosts = [
         title: "Why Kilimani is the Hotspot for Investors",
         excerpt: "An in-depth analysis of rental yields and capital appreciation in one of Nairobi's fastest growing suburbs.",
         image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&auto=format&fit=crop",
-        author: "Ivory Crest Team",
+        author: "Bold Realty Team",
         readTime: "6 min read",
         content: `
       <p>Kilimani has emerged as one of Nairobi's most sought-after residential areas, offering exceptional investment opportunities with strong rental yields and impressive capital appreciation rates.</p>
@@ -206,7 +206,7 @@ const BlogDetail = () => {
     return (
         <>
             <Helmet>
-                <title>{post.title} - Ivory Crest</title>
+                <title>{post.title} - Bold Realty</title>
                 <meta name="description" content={post.excerpt} />
             </Helmet>
 

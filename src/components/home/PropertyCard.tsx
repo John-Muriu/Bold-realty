@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { MapPin, Bed, Bath, Square, Phone, MessageCircle } from "lucide-react";
+import { MapPin, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -9,26 +9,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-
-interface Property {
-  id: string;
-  title: string;
-  description: string | null;
-  location: string;
-  price: number;
-  price_label: string | null;
-  bedrooms: number;
-  bathrooms: number;
-  size_sqm: number | null;
-  size_label: string | null;
-  property_type: string;
-  status: "ready" | "off-plan" | "sold";
-  listing_type: "buy" | "rent";
-  featured: boolean;
-  image_url: string | null;
-  units_available: number | null;
-  images?: string[] | null;
-}
+import { Property } from "@/lib/mockProperties";
 
 interface PropertyCardProps {
   property: Property;
@@ -116,39 +97,12 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
         </div>
 
         {/* Features */}
-        <div className="grid grid-cols-3 gap-2 py-4 border-t border-border mb-4">
-          <div className="flex flex-col items-center justify-center p-2 bg-muted/50 rounded-lg">
-            <Bed className="w-4 h-4 text-primary mb-1" />
-            <span className="text-xs font-semibold text-foreground">
-              {property.bedrooms === 0 ? "Studio" : property.bedrooms}
-            </span>
-            <span className="text-[10px] text-muted-foreground uppercase">Beds</span>
-          </div>
-          <div className="flex flex-col items-center justify-center p-2 bg-muted/50 rounded-lg">
-            <Bath className="w-4 h-4 text-primary mb-1" />
-            <span className="text-xs font-semibold text-foreground">
-              {property.bathrooms}
-            </span>
-            <span className="text-[10px] text-muted-foreground uppercase">Baths</span>
-          </div>
-          <div className="flex flex-col items-center justify-center p-2 bg-muted/50 rounded-lg">
-            <Square className="w-4 h-4 text-primary mb-1" />
-            <span className="text-xs font-semibold text-foreground">
-              {property.size_label || (property.size_sqm ? property.size_sqm : "-")}
-            </span>
-            <span className="text-[10px] text-muted-foreground uppercase">Sqm</span>
-          </div>
-        </div>
+
 
         {/* Actions */}
-        <div className="grid grid-cols-2 gap-3 mt-auto">
-          <Button variant="secondary" className="w-full text-xs" asChild>
-            <a href="https://book.settime.io/ivory-crest" target="_blank" rel="noopener noreferrer">
-              Schedule Viewing
-            </a>
-          </Button>
-          <Button variant="outline" className="w-full text-xs border-primary text-primary hover:bg-primary hover:text-white" asChild>
-            <a href="https://wa.me/2540103002049" target="_blank" rel="noopener noreferrer">
+        <div className="mt-auto">
+          <Button variant="gold" className="w-full text-xs" asChild>
+            <a href="https://wa.me/254725316343" target="_blank" rel="noopener noreferrer">
               <MessageCircle className="w-3 h-3 mr-1.5" />
               Contact Agent
             </a>

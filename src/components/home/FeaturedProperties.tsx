@@ -4,26 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import PropertyCard from "./PropertyCard";
-
-interface Property {
-  id: string;
-  title: string;
-  description: string | null;
-  location: string;
-  price: number;
-  price_label: string | null;
-  bedrooms: number;
-  bathrooms: number;
-  size_sqm: number | null;
-  size_label: string | null;
-  property_type: string;
-  status: "ready" | "off-plan" | "sold";
-  listing_type: "buy" | "rent";
-  featured: boolean;
-  image_url: string | null;
-  units_available: number | null;
-  images: string[] | null;
-}
+import { MOCK_PROPERTIES, Property } from "@/lib/mockProperties";
 
 interface FeaturedPropertiesProps {
   title?: string;
@@ -65,7 +46,16 @@ const FeaturedProperties = ({
       const { data, error } = await query;
 
       if (!error && data) {
-        setProperties(data as unknown as Property[]);
+        let dbProperties = data as unknown as Property[];
+        if (dbProperties.length < limit) {
+          const needed = limit - dbProperties.length;
+          const additional = MOCK_PROPERTIES.slice(0, needed);
+          setProperties([...dbProperties, ...additional]);
+        } else {
+          setProperties(dbProperties);
+        }
+      } else {
+        setProperties(MOCK_PROPERTIES.slice(0, limit));
       }
       setLoading(false);
     };

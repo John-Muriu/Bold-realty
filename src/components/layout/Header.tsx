@@ -61,13 +61,13 @@ const Header = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-6">
-              <a href="tel:+2540103002049" className="flex items-center gap-2 hover:text-primary transition-colors">
+              <a href="tel:+254725316343" className="flex items-center gap-2 hover:text-primary transition-colors">
                 <Phone className="w-4 h-4" />
-                <span>+254 103 002 049</span>
+                <span>+254 725 316 343</span>
               </a>
-              <a href="mailto:info@ivorycrest.co.ke" className="flex items-center gap-2 hover:text-primary transition-colors">
+              <a href="mailto:info@boldrealty.co.ke" className="flex items-center gap-2 hover:text-primary transition-colors">
                 <Mail className="w-4 h-4" />
-                <span>info@ivorycrest.co.ke</span>
+                <span>info@boldrealty.co.ke</span>
               </a>
             </div>
             <div className="flex items-center gap-2 text-muted-foreground">
@@ -84,7 +84,7 @@ const Header = () => {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3">
-              <img src="/ivory-crest-logo.png" alt="Ivory Crest" className="h-12 w-auto object-contain transition-transform duration-300 hover:scale-105" />
+              <img src="/bold-realty-logo.png" alt="Bold Realty" className="h-12 w-auto object-contain transition-transform duration-300 hover:scale-105" />
 
             </Link>
 
@@ -133,7 +133,7 @@ const Header = () => {
             {/* CTA Button */}
             <div className="hidden lg:flex items-center gap-4">
               <Button variant="gold" size="lg">
-                List Your Property
+                Get Property Advice
               </Button>
             </div>
 
@@ -194,7 +194,7 @@ const Header = () => {
                   </div>
                 ))}
                 <Button variant="gold" className="mt-4 w-full">
-                  List Your Property
+                  Get Property Advice
                 </Button>
               </nav>
             </div>

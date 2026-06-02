@@ -1,3 +1,4 @@
+@import url('https://fonts.cdnfonts.com/css/proxima-nova-2');
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
@@ -17,7 +18,7 @@
     --popover-foreground: 220 20% 10%;
 
     /* Gold/Amber Primary - Luxury accent */
-    --primary: 38 70% 50%;
+    --primary: 17 71% 51%;
     --primary-foreground: 0 0% 100%;
 
     /* Deep Navy Secondary */
@@ -28,7 +29,7 @@
     --muted-foreground: 220 10% 45%;
 
     /* Accent - Warm Gold */
-    --accent: 38 60% 45%;
+    --accent: 17 65% 45%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -36,26 +37,26 @@
 
     --border: 220 15% 88%;
     --input: 220 15% 88%;
-    --ring: 38 70% 50%;
+    --ring: 17 71% 51%;
 
     --radius: 0.75rem;
 
     /* Custom tokens */
-    --gold: 38 70% 50%;
-    --gold-light: 38 65% 60%;
-    --gold-dark: 38 75% 40%;
+    --gold: 17 71% 51%;
+    --gold-light: 17 70% 60%;
+    --gold-dark: 17 75% 42%;
     --navy: 220 30% 12%;
     --navy-light: 220 25% 20%;
     --charcoal: 220 15% 18%;
 
     /* Gradients */
-    --gradient-gold: linear-gradient(135deg, hsl(38 70% 50%), hsl(38 75% 40%));
+    --gradient-gold: linear-gradient(135deg, hsl(17 71% 51%), hsl(17 75% 42%));
     --gradient-dark: linear-gradient(180deg, hsl(220 30% 12%), hsl(220 25% 8%));
     --gradient-hero: linear-gradient(135deg, hsl(220 30% 8%) 0%, hsl(220 25% 15%) 50%, hsl(220 20% 20%) 100%);
 
     /* Shadows */
     --shadow-soft: 0 4px 20px -4px hsl(220 30% 12% / 0.1);
-    --shadow-gold: 0 8px 30px -8px hsl(38 70% 50% / 0.3);
+    --shadow-gold: 0 8px 30px -8px hsl(17 71% 51% / 0.3);
     --shadow-card: 0 10px 40px -10px hsl(220 30% 12% / 0.15);
     --shadow-elevated: 0 25px 50px -12px hsl(220 30% 12% / 0.25);
 
@@ -79,7 +80,7 @@
     --popover: 220 25% 12%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 38 70% 55%;
+    --primary: 17 71% 56%;
     --primary-foreground: 220 30% 10%;
 
     --secondary: 220 20% 20%;
@@ -88,7 +89,7 @@
     --muted: 220 20% 18%;
     --muted-foreground: 220 10% 60%;
 
-    --accent: 38 60% 50%;
+    --accent: 17 65% 46%;
     --accent-foreground: 220 30% 10%;
 
     --destructive: 0 62.8% 30.6%;
@@ -96,16 +97,16 @@
 
     --border: 220 20% 20%;
     --input: 220 20% 20%;
-    --ring: 38 70% 55%;
+    --ring: 17 71% 56%;
 
     --sidebar-background: 220 25% 10%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 38 70% 55%;
+    --sidebar-primary: 17 71% 56%;
     --sidebar-primary-foreground: 220 30% 10%;
     --sidebar-accent: 220 20% 15%;
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 220 20% 18%;
-    --sidebar-ring: 38 70% 55%;
+    --sidebar-ring: 17 71% 56%;
   }
 }
 
@@ -136,7 +137,7 @@
 
   .btn-gold:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 35px -8px hsl(38 70% 50% / 0.4);
+    box-shadow: 0 12px 35px -8px hsl(17 71% 51% / 0.4);
   }
 
   .card-property {

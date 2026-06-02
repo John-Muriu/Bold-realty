@@ -10,7 +10,9 @@ import ImageUpload from "@/components/admin/ImageUpload";
 
 interface Unit {
     type: string;
+    size?: string;
     price: string;
+    expected_rent?: string;
 }
 
 const PropertyForm = () => {
@@ -123,7 +125,7 @@ const PropertyForm = () => {
 
     // Units Logic
     const addUnit = () => {
-        setUnits([...units, { type: "", price: "" }]);
+        setUnits([...units, { type: "", size: "", price: "", expected_rent: "" }]);
     };
 
     const removeUnit = (index: number) => {
@@ -349,26 +351,46 @@ const PropertyForm = () => {
                         <p className="text-sm text-gray-400 italic">No specific units added yet.</p>
                     )}
 
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                         {units.map((unit, index) => (
-                            <div key={index} className="flex gap-4 items-end bg-gray-50 p-3 rounded-lg">
+                            <div key={index} className="relative bg-gray-50/70 p-5 rounded-xl border border-gray-100/80 space-y-4 md:space-y-0 md:flex md:gap-4 md:items-end">
                                 <div className="flex-1">
-                                    <label className="block text-xs font-medium mb-1">Unit Type</label>
+                                    <label className="block text-xs font-medium text-gray-500 mb-1.5">Unit Type</label>
                                     <Input
                                         value={unit.type}
                                         onChange={(e) => updateUnit(index, 'type', e.target.value)}
                                         placeholder="e.g. 1 Bedroom"
+                                        className="bg-white border-gray-200"
+                                    />
+                                </div>
+                                <div className="w-full md:w-32">
+                                    <label className="block text-xs font-medium text-gray-500 mb-1.5">Size (sqm)</label>
+                                    <Input
+                                        value={unit.size || ""}
+                                        onChange={(e) => updateUnit(index, 'size', e.target.value)}
+                                        placeholder="e.g. 55 sqm"
+                                        className="bg-white border-gray-200"
                                     />
                                 </div>
                                 <div className="flex-1">
-                                    <label className="block text-xs font-medium mb-1">Price (Description)</label>
+                                    <label className="block text-xs font-medium text-gray-500 mb-1.5">Cash Price</label>
                                     <Input
                                         value={unit.price}
                                         onChange={(e) => updateUnit(index, 'price', e.target.value)}
-                                        placeholder="e.g. 6.5M - 7M"
+                                        placeholder="e.g. KSh 6,500,000"
+                                        className="bg-white border-gray-200"
                                     />
                                 </div>
-                                <Button type="button" variant="destructive" size="icon" onClick={() => removeUnit(index)}>
+                                <div className="flex-1">
+                                    <label className="block text-xs font-medium text-gray-500 mb-1.5">Expected Rent</label>
+                                    <Input
+                                        value={unit.expected_rent || ""}
+                                        onChange={(e) => updateUnit(index, 'expected_rent', e.target.value)}
+                                        placeholder="e.g. KSh 70,000/month"
+                                        className="bg-white border-gray-200"
+                                    />
+                                </div>
+                                <Button type="button" variant="destructive" size="icon" onClick={() => removeUnit(index)} className="mt-4 md:mt-0 flex-shrink-0">
                                     <Trash2 className="w-4 h-4" />
                                 </Button>
                             </div>

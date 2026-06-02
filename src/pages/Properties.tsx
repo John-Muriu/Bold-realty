@@ -7,26 +7,7 @@ import Footer from "@/components/layout/Footer";
 import PropertyCard from "@/components/home/PropertyCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-interface Property {
-  id: string;
-  title: string;
-  description: string | null;
-  location: string;
-  price: number;
-  price_label: string | null;
-  bedrooms: number;
-  bathrooms: number;
-  size_sqm: number | null;
-  size_label: string | null;
-  property_type: string;
-  status: "ready" | "off-plan" | "sold";
-  listing_type: "buy" | "rent";
-  featured: boolean;
-  image_url: string | null;
-  units_available: number | null;
-  images: string[] | null;
-}
+import { MOCK_PROPERTIES, Property } from "@/lib/mockProperties";
 
 const Properties = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -76,7 +57,67 @@ const Properties = () => {
       const { data, error } = await query.order("featured", { ascending: false }).order("created_at", { ascending: false });
 
       if (!error && data) {
-        setProperties(data as unknown as Property[]);
+        const dbProperties = data as unknown as Property[];
+        
+        const filteredMocks = MOCK_PROPERTIES.filter((prop) => {
+          if (filters.location && !prop.location.toLowerCase().includes(filters.location.toLowerCase())) {
+            return false;
+          }
+          if (filters.propertyType && !prop.property_type.toLowerCase().includes(filters.propertyType.toLowerCase())) {
+            return false;
+          }
+          if (filters.listingType && prop.listing_type !== filters.listingType) {
+            return false;
+          }
+          if (filters.status && prop.status !== filters.status) {
+            return false;
+          }
+          if (filters.search) {
+            const searchLower = filters.search.toLowerCase();
+            const titleMatch = prop.title.toLowerCase().includes(searchLower);
+            const locMatch = prop.location.toLowerCase().includes(searchLower);
+            if (!titleMatch && !locMatch) {
+              return false;
+            }
+          }
+          return true;
+        });
+
+        const combined = [...dbProperties, ...filteredMocks].sort((a, b) => {
+          if (a.featured && !b.featured) return -1;
+          if (!a.featured && b.featured) return 1;
+          
+          const timeA = new Date(a.created_at || 0).getTime();
+          const timeB = new Date(b.created_at || 0).getTime();
+          return timeB - timeA;
+        });
+
+        setProperties(combined);
+      } else {
+        const filteredMocks = MOCK_PROPERTIES.filter((prop) => {
+          if (filters.location && !prop.location.toLowerCase().includes(filters.location.toLowerCase())) {
+            return false;
+          }
+          if (filters.propertyType && !prop.property_type.toLowerCase().includes(filters.propertyType.toLowerCase())) {
+            return false;
+          }
+          if (filters.listingType && prop.listing_type !== filters.listingType) {
+            return false;
+          }
+          if (filters.status && prop.status !== filters.status) {
+            return false;
+          }
+          if (filters.search) {
+            const searchLower = filters.search.toLowerCase();
+            const titleMatch = prop.title.toLowerCase().includes(searchLower);
+            const locMatch = prop.location.toLowerCase().includes(searchLower);
+            if (!titleMatch && !locMatch) {
+              return false;
+            }
+          }
+          return true;
+        });
+        setProperties(filteredMocks);
       }
       setLoading(false);
     };

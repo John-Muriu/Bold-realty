@@ -34,7 +34,7 @@ const AdminLogin = () => {
             <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
                 <div className="text-center mb-8">
                     <h1 className="font-display text-2xl font-bold text-gray-900">Admin Login</h1>
-                    <p className="text-gray-500 text-sm">Sign in to manage Ivory Crest</p>
+                    <p className="text-gray-500 text-sm">Sign in to manage Bold Realty</p>
                 </div>
 
                 <form onSubmit={handleLogin} className="space-y-4">
@@ -44,7 +44,7 @@ const AdminLogin = () => {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="admin@ivorycrest.co.ke"
+                            placeholder="admin@boldrealty.co.ke"
                             required
                         />
                     </div>

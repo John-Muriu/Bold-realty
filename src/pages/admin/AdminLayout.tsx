@@ -83,7 +83,7 @@ const AdminLayout = () => {
                     <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                         <Menu className="w-6 h-6" />
                     </button>
-                    <span className="font-bold">Ivory Crest Admin</span>
+                    <span className="font-bold">Bold Realty Admin</span>
                 </header>
 
                 <main className="flex-1 p-6 md:p-8 overflow-auto">
