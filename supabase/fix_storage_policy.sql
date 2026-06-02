@@ -1,5 +1,11 @@
 -- Copy and run this SQL in your Supabase Dashboard > SQL Editor
 
+-- Preemptively drop existing policies to prevent "already exists" errors
+DROP POLICY IF EXISTS "Give public access to images" ON storage.objects;
+DROP POLICY IF EXISTS "Allow authenticated uploads" ON storage.objects;
+DROP POLICY IF EXISTS "Allow individual updates" ON storage.objects;
+DROP POLICY IF EXISTS "Allow individual deletions" ON storage.objects;
+
 -- 1. Allow public read access (so everyone can see the images)
 CREATE POLICY "Give public access to images"
 ON storage.objects FOR SELECT
@@ -27,3 +33,4 @@ CREATE POLICY "Allow individual deletions"
 ON storage.objects FOR DELETE
 TO authenticated
 USING ( bucket_id = 'images' );
+
