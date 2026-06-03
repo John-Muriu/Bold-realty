@@ -192,6 +192,14 @@ const PropertyForm = () => {
         setLoading(false);
     };
 
+    const defaultTypes = ["Apartment", "Maisonette", "Villa", "Studio", "Townhouse"];
+    const displayedPropertyTypes = Array.from(
+        new Set([
+            ...categories.property_type.map(c => c.name),
+            ...defaultTypes
+        ])
+    );
+
     return (
         <div className="max-w-4xl mx-auto">
             <div className="flex items-center gap-4 mb-8">
@@ -233,13 +241,9 @@ const PropertyForm = () => {
                                 onChange={handleChange}
                                 className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                             >
-                                {categories.property_type.length > 0 ? (
-                                    categories.property_type.map(c => (
-                                        <option key={c.id} value={c.name}>{c.name}</option>
-                                    ))
-                                ) : (
-                                    <option value="Apartment">Apartment</option> // Fallback
-                                )}
+                                {displayedPropertyTypes.map(type => (
+                                    <option key={type} value={type}>{type}</option>
+                                ))}
                             </select>
                         </div>
 
@@ -251,13 +255,8 @@ const PropertyForm = () => {
                                 onChange={handleChange}
                                 className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                             >
-                                {categories.listing_type.length > 0 ? (
-                                    categories.listing_type.map(c => (
-                                        <option key={c.id} value={c.name}>{c.name}</option>
-                                    ))
-                                ) : (
-                                    <option value="buy">For Sale</option> // Fallback
-                                )}
+                                <option value="buy">For Sale</option>
+                                <option value="rent">For Rent</option>
                             </select>
                         </div>
 
