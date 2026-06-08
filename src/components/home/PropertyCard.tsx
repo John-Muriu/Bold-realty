@@ -10,6 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Property } from "@/lib/mockProperties";
+import { getPropertyUrl } from "@/utils/seo-utils";
 
 interface PropertyCardProps {
   property: Property;
@@ -35,7 +36,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
           <CarouselContent className="h-full">
             {images.map((img, index) => (
               <CarouselItem key={index} className="h-full">
-                <Link to={`/properties/${property.id}`} className="block h-full">
+                <Link to={getPropertyUrl(property)} className="block h-full">
                   <img
                     src={img}
                     alt={`${property.title} - Image ${index + 1}`}
@@ -83,7 +84,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
               {property.listing_type === 'rent' && <span className="text-sm font-normal text-muted-foreground">/mo</span>}
             </span>
           </div>
-          <Link to={`/properties/${property.id}`} className="block group-hover:text-primary transition-colors">
+          <Link to={getPropertyUrl(property)} className="block group-hover:text-primary transition-colors">
             <h3 className="font-display text-lg font-bold text-card-foreground line-clamp-1">
               {property.title}
             </h3>
@@ -102,7 +103,13 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
         {/* Actions */}
         <div className="mt-auto">
           <Button variant="gold" className="w-full text-xs" asChild>
-            <a href="https://wa.me/254725316343" target="_blank" rel="noopener noreferrer">
+            <a 
+              href={`https://wa.me/254725316343?text=${encodeURIComponent(
+                `Hi Bold Realty, I am interested in "${property.title}". Here is the link: ${window.location.origin}${getPropertyUrl(property)}`
+              )}`}
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
               <MessageCircle className="w-3 h-3 mr-1.5" />
               Contact Agent
             </a>

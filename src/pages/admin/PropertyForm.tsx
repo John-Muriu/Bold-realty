@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { ArrowLeft, Save, Plus, Trash2 } from "lucide-react";
 import ImageUpload from "@/components/admin/ImageUpload";
+import { generateSlug } from "@/utils/seo-utils";
 
 interface Unit {
     type: string;
@@ -95,6 +96,10 @@ const PropertyForm = () => {
                 seo_keywords: property.seo_keywords || "",
             });
 
+            if (property.slug) {
+                setIsSlugManuallyEdited(true);
+            }
+
             // Parse amenities array to string
             if (property.amenities && Array.isArray(property.amenities)) {
                 setAmenitiesInput(property.amenities.join(", "));
@@ -105,6 +110,25 @@ const PropertyForm = () => {
                 setUnits(property.units);
             }
         }
+    };
+
+    const [isSlugManuallyEdited, setIsSlugManuallyEdited] = useState(false);
+
+    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const title = e.target.value;
+        setFormData(prev => {
+            const updated = { ...prev, title };
+            if (!isSlugManuallyEdited) {
+                updated.slug = generateSlug(title);
+            }
+            return updated;
+        });
+    };
+
+    const handleSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const slug = e.target.value;
+        setIsSlugManuallyEdited(true);
+        setFormData(prev => ({ ...prev, slug }));
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -145,6 +169,9 @@ const PropertyForm = () => {
         // Process Amenities
         const amenitiesArray = amenitiesInput.split(",").map(item => item.trim()).filter(Boolean);
 
+        // Ensure a clean slug is generated if blank
+        const finalSlug = formData.slug ? generateSlug(formData.slug) : generateSlug(formData.title);
+
         const propertyData = {
             title: formData.title,
             description: formData.description,
@@ -154,8 +181,8 @@ const PropertyForm = () => {
             bathrooms: parseInt(formData.bathrooms),
             size_sqm: formData.size_sqm ? parseInt(formData.size_sqm) : null,
             property_type: formData.property_type,
-            listing_type: formData.listing_type as "buy" | "rent", // Type assertion for Supabase
-            status: formData.status as "ready" | "off-plan" | "sold", // Type assertion for Supabase
+            listing_type: formData.listing_type as "buy" | "rent",
+            status: formData.status as "ready" | "off-plan" | "sold",
             featured: formData.featured,
             image_url: formData.image_url,
             images: formData.images,
@@ -164,7 +191,7 @@ const PropertyForm = () => {
             units: units,
             seo_title: formData.seo_title,
             seo_description: formData.seo_description,
-            slug: formData.slug,
+            slug: finalSlug,
             seo_keywords: formData.seo_keywords,
         };
 
@@ -220,7 +247,7 @@ const PropertyForm = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="col-span-2">
                             <label className="block text-sm font-medium mb-1">Title</label>
-                            <Input name="title" value={formData.title} onChange={handleChange} required placeholder="e.g. Luxury Villa in Karen" />
+                            <Input name="title" value={formData.title} onChange={handleTitleChange} required placeholder="e.g. Luxury Villa in Karen" />
                         </div>
 
                         <div>
@@ -428,7 +455,7 @@ const PropertyForm = () => {
                         <Input
                             name="slug"
                             value={formData.slug || ""}
-                            onChange={handleChange}
+                            onChange={handleSlugChange}
                             placeholder="e.g. clermont-residence-nairobi-apartments-for-sale"
                         />
                         <p className="text-xs text-muted-foreground mt-1">Use hyphens, no spaces. Leave blank to auto-generate from title.</p>

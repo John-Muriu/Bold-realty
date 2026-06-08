@@ -12,9 +12,10 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { MOCK_PROPERTIES, Property } from "@/lib/mockProperties";
+import { generatePropertySchema, getPropertyUrl } from "@/utils/seo-utils";
 
 const PropertyDetail = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id, slug } = useParams<{ id?: string; location?: string; slug?: string }>();
   const [property, setProperty] = useState<Property | null>(null);
   const [loading, setLoading] = useState(true);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
@@ -22,33 +23,72 @@ const PropertyDetail = () => {
 
   useEffect(() => {
     const fetchProperty = async () => {
-      if (!id) return;
+      const idOrSlug = slug || id;
+      if (!idOrSlug) return;
 
-      if (id.startsWith("mock-")) {
-        const mockProp = MOCK_PROPERTIES.find(p => p.id === id);
-        if (mockProp) {
-          setProperty(mockProp);
-        } else {
-          setProperty(null);
+      // 1. Try to find in Supabase (check if UUID or text slug)
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(idOrSlug);
+      let data = null;
+      let error = null;
+
+      if (isUuid) {
+        const res = await supabase
+          .from("properties")
+          .select("*")
+          .eq("id", idOrSlug)
+          .maybeSingle();
+        data = res.data;
+        error = res.error;
+      } else {
+        const res = await supabase
+          .from("properties")
+          .select("*")
+          .eq("slug", idOrSlug)
+          .maybeSingle();
+        data = res.data;
+        error = res.error;
+
+        // Fallback: if not found by slug, check if any property matches by generated title slug
+        if (!data && !error) {
+          const { data: allProps, error: allPropsError } = await supabase
+            .from("properties")
+            .select("*");
+          
+          if (!allPropsError && allProps) {
+            const matched = allProps.find((p) => {
+              const generated = p.title
+                .toLowerCase()
+                .replace(/[^\w\s-]/g, "")
+                .trim()
+                .replace(/\s+/g, "-")
+                .replace(/-+/g, "-");
+              return generated === idOrSlug;
+            });
+            if (matched) {
+              data = matched;
+            }
+          }
         }
+      }
+
+      if (!error && data) {
+        setProperty(data as unknown as Property);
         setLoading(false);
         return;
       }
 
-      const { data, error } = await supabase
-        .from("properties")
-        .select("*")
-        .eq("id", id)
-        .maybeSingle();
-
-      if (!error && data) {
-        setProperty(data as unknown as Property);
+      // 2. Fallback: Try to find in mock data
+      const mockProp = MOCK_PROPERTIES.find(
+        p => p.id === idOrSlug || p.slug === idOrSlug
+      );
+      if (mockProp) {
+        setProperty(mockProp);
       }
       setLoading(false);
     };
 
     fetchProperty();
-  }, [id]);
+  }, [id, slug]);
 
   const formatPrice = (price: number) => {
     if (price >= 1000000) {
@@ -67,35 +107,7 @@ const PropertyDetail = () => {
     setIsLightboxOpen(true);
   };
 
-  const propertySchema = property ? {
-    "@context": "https://schema.org",
-    "@type": "RealEstateListing",
-    "name": property.title,
-    "description": property.description,
-    "url": window.location.href,
-    "image": property.images || [property.image_url],
-    "datePosted": new Date().toISOString().split('T')[0],
-    "offers": {
-      "@type": "Offer",
-      "price": property.price,
-      "priceCurrency": "KES",
-      "availability": property.units_available && property.units_available > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-    },
-    "provider": {
-      "@type": "RealEstateAgent",
-      "name": "Bold Realty",
-      "image": "https://boldrealty.co.ke/bold-realty-logo.png",
-      "telephone": "+254725316343",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Argwings Kodhek Road",
-        "addressLocality": "Kilimani, Nairobi",
-        "addressRegion": "Nairobi",
-        "postalCode": "00100",
-        "addressCountry": "KE"
-      }
-    }
-  } : undefined;
+  const propertySchema = property ? (generatePropertySchema(property) as any) : undefined;
 
   const images = property?.images?.length ? property.images : (property?.image_url ? [property.image_url] : []);
 
@@ -153,10 +165,12 @@ const PropertyDetail = () => {
     <div className="min-h-screen bg-background">
       {property && (
         <SEO
-          title={property.title}
-          description={property.description || `Check out ${property.title} in ${property.location}`}
+          title={property.seo_title || property.title}
+          description={property.seo_description || property.description || `Check out ${property.title} in ${property.location}`}
+          keywords={property.seo_keywords || undefined}
           image={property.image_url || undefined}
-          type="product"
+          url={getPropertyUrl(property)}
+          type="property"
           schema={propertySchema}
         />
       )}
@@ -568,7 +582,13 @@ const PropertyDetail = () => {
                     </a>
                   </Button>
                   <Button variant="outline" size="lg" className="w-full" asChild>
-                    <a href="https://wa.me/254725316343" target="_blank" rel="noopener noreferrer">
+                    <a 
+                      href={`https://wa.me/254725316343?text=${encodeURIComponent(
+                        `Hi Bold Realty, I am interested in "${property.title}". Here is the link: ${window.location.origin}${getPropertyUrl(property)}`
+                      )}`}
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                    >
                       <MessageCircle className="w-5 h-5" />
                       WhatsApp
                     </a>

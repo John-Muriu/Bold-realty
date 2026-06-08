@@ -60,6 +60,12 @@ const Properties = () => {
         const dbProperties = data as unknown as Property[];
         
         const filteredMocks = MOCK_PROPERTIES.filter((prop) => {
+          // Exclude mock properties that are already present in the Supabase database
+          const existsInDb = dbProperties.some(dbP => dbP.slug === prop.slug || dbP.title === prop.title);
+          if (existsInDb) {
+            return false;
+          }
+
           if (filters.location && !prop.location.toLowerCase().includes(filters.location.toLowerCase())) {
             return false;
           }

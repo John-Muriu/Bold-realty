@@ -22,7 +22,31 @@ const AdminProperties = () => {
 
     const fetchProperties = async () => {
         const { data } = await supabase.from("properties").select("*").order("created_at", { ascending: false });
-        if (data) setProperties(data);
+        if (data) {
+            setProperties(data);
+            
+            // Check if any property lacks a slug, and update it automatically using the admin's session!
+            let updatedAny = false;
+            for (const property of data) {
+                if (!property.slug || property.slug.trim() === "") {
+                    const generatedSlug = property.title
+                        .toLowerCase()
+                        .replace(/[^\w\s-]/g, "")
+                        .trim()
+                        .replace(/\s+/g, "-")
+                        .replace(/-+/g, "-");
+                    console.log(`Auto-populating database slug for "${property.title}" to "${generatedSlug}"`);
+                    const { error } = await supabase.from("properties").update({ slug: generatedSlug }).eq("id", property.id);
+                    if (!error) {
+                        updatedAny = true;
+                    }
+                }
+            }
+            if (updatedAny) {
+                const { data: refreshedData } = await supabase.from("properties").select("*").order("created_at", { ascending: false });
+                if (refreshedData) setProperties(refreshedData);
+            }
+        }
         setLoading(false);
     };
 

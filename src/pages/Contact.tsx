@@ -149,7 +149,9 @@ const Contact = () => {
                   </a>
 
                   <a
-                    href="https://wa.me/254725316343"
+                    href={`https://wa.me/254725316343?text=${encodeURIComponent(
+                      "Hi Bold Realty, I would like to inquire about your premium properties."
+                    )}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-start gap-4 p-4 rounded-xl bg-emerald-500/5 hover:bg-emerald-500/10 transition-colors"

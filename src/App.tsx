@@ -43,10 +43,16 @@ const App = () => (
             <Route path="/properties" element={<Properties />} />
             <Route path="/locations" element={<Locations />} />
             <Route path="/properties/:id" element={<PropertyDetail />} />
+            <Route path="/properties/:location/:slug" element={<PropertyDetail />} />
+            <Route path="/apartments/:location/:slug" element={<PropertyDetail />} />
+            <Route path="/luxury-homes/:location/:slug" element={<PropertyDetail />} />
+            <Route path="/off-plan/:location/:slug" element={<PropertyDetail />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
             <Route path="/insights" element={<Insights />} />
             <Route path="/insights/:id" element={<BlogDetail />} />
+            <Route path="/insights/posts/:slug" element={<BlogDetail />} />
+            <Route path="/insights/:slug" element={<BlogDetail />} />
 
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />

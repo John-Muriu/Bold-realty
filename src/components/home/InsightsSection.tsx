@@ -1,33 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const insights = [
-    {
-        id: 4,
-        date: "Dec 24, 2024",
-        category: "Investment Guide",
-        title: "Why Westlands is the Best Place to Invest in Nairobi",
-        excerpt: "Explore why Westlands continues to dominate as Nairobi's premier investment destination with unmatched ROI and growth potential.",
-        image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&auto=format&fit=crop"
-    },
-    {
-        id: 5,
-        date: "Dec 24, 2024",
-        category: "Market Analysis",
-        title: "Why Nairobi is the Next Investment Hub in East Africa",
-        excerpt: "Discover how Nairobi is positioning itself as Africa's leading real estate investment destination with unprecedented opportunities.",
-        image: "https://images.unsplash.com/photo-1577495508326-19a1b3cf65b7?w=800&auto=format&fit=crop"
-    },
-    {
-        id: 1,
-        date: "Oct 24, 2024",
-        category: "Market Trends",
-        title: "The Future of Luxury Real Estate in Nairobi",
-        excerpt: "Discover emerging trends and investment opportunities in Nairobi's prime residential areas.",
-        image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&auto=format&fit=crop"
-    }
-];
+import { MOCK_BLOGS } from "@/lib/mockBlogs";
 
 const InsightsSection = () => {
     return (
@@ -51,10 +25,10 @@ const InsightsSection = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {insights.map((item) => (
+                    {MOCK_BLOGS.slice(0, 3).map((item) => (
                         <Link
                             key={item.id}
-                            to={`/insights/${item.id}`}
+                            to={`/insights/${item.slug || item.id}`}
                             className="group bg-card rounded-2xl overflow-hidden border border-border hover:shadow-lg transition-all duration-300"
                         >
                             <div className="aspect-[16/10] overflow-hidden relative">
