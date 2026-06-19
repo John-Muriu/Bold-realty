@@ -1,10 +1,43 @@
 import { createClient } from "@supabase/supabase-js";
+import fs from "fs";
+import path from "path";
 
-const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+// Load env files manually if present (e.g. locally or in direct dev runs)
+try {
+  const envPaths = [".env", "test.env"];
+  for (const filename of envPaths) {
+    const filePath = path.resolve(process.cwd(), filename);
+    if (fs.existsSync(filePath)) {
+      const content = fs.readFileSync(filePath, "utf-8");
+      for (const line of content.split("\n")) {
+        const trimmed = line.trim();
+        if (trimmed && !trimmed.startsWith("#")) {
+          const index = trimmed.indexOf("=");
+          if (index !== -1) {
+            const key = trimmed.slice(0, index).trim();
+            const val = trimmed.slice(index + 1).trim().replace(/^['"]|['"]$/g, "");
+            if (key && !process.env[key]) {
+              process.env[key] = val;
+            }
+          }
+        }
+      }
+    }
+  }
+} catch (err) {
+  console.warn("Failed to read local env files:", err.message);
+}
+
+// Fallback to project's public Supabase URL and Publishable/Anon key to keep it alive
+// even when run in environments like GitHub Actions without repository secrets.
+const DEFAULT_SUPABASE_URL = "https://zhlduhxvdgstdffqqcii.supabase.co";
+const DEFAULT_PUBLISHABLE_KEY = "sb_publishable_BDgvuvTjzR6k2ZQzRp5fHQ_96d6a1Cy";
+
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || DEFAULT_SUPABASE_URL;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
 const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY;
-const VITE_SUPABASE_PUBLISHABLE_KEY = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+const VITE_SUPABASE_PUBLISHABLE_KEY = process.env.VITE_SUPABASE_PUBLISHABLE_KEY || DEFAULT_PUBLISHABLE_KEY;
 
 if (process.env.VITE_SUPABASE_SERVICE_ROLE_KEY) {
   console.error(
